@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Go4LunchImproved</string>
+    <string name="app_name">Go4Lunch</string>
+    <string name="map_view">Map View</string>
+    <string name="restaurant_view">List View</string>
+    <string name="workmates_view">Workmates</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
