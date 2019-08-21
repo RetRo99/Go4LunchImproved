@@ -1,10 +1,9 @@
 package com.example.go4lunchimproved
 
 import android.Manifest
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -13,14 +12,11 @@ import com.google.android.material.navigation.NavigationView
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import kotlinx.android.synthetic.main.activity_main.*
-import android.content.Intent
 
 
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-
-class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
-
-private lateinit var quickPermissionsOption:QuickPermissionsOptions
+    private lateinit var quickPermissionsOption: QuickPermissionsOptions
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
@@ -28,7 +24,7 @@ private lateinit var quickPermissionsOption:QuickPermissionsOptions
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-          quickPermissionsOption = QuickPermissionsOptions(
+        quickPermissionsOption = QuickPermissionsOptions(
             handleRationale = true,
             rationaleMessage = resources.getString(R.string.permissions_denied),
             permanentlyDeniedMessage = "Custom permanently denied message"
@@ -36,14 +32,13 @@ private lateinit var quickPermissionsOption:QuickPermissionsOptions
         setupNavigation()
 
 
-
-
     }
 
 
-
-    private fun setupNavigation() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION, options = quickPermissionsOption) {
+    private fun setupNavigation() = runWithPermissions(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION, options = quickPermissionsOption
+    ) {
 
         val OFFSCREEN_PAGES = 2
         val adapter: PagerAdapter = TabAdapter(supportFragmentManager, this)
@@ -74,11 +69,7 @@ private lateinit var quickPermissionsOption:QuickPermissionsOptions
         navigationView.setNavigationItemSelectedListener(this)
 
 
-
     }
-
-
-
 
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -89,7 +80,7 @@ private lateinit var quickPermissionsOption:QuickPermissionsOptions
     }
 
     override fun onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)) drawerLayout.closeDrawer(GravityCompat.START) else  super.onBackPressed()
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) drawerLayout.closeDrawer(GravityCompat.START) else super.onBackPressed()
 
     }
 
@@ -97,17 +88,13 @@ private lateinit var quickPermissionsOption:QuickPermissionsOptions
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-               drawerLayout.openDrawer(GravityCompat.START)
+                drawerLayout.openDrawer(GravityCompat.START)
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
-
-
 
 
 }
