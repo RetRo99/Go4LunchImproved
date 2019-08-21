@@ -20,12 +20,12 @@ class TabAdapter(fm: FragmentManager, private val context: Context):FragmentStat
     override fun getItem(position: Int): Fragment {
         when(position){
             0 -> return MapViewFragment()
-            1 -> return MapViewFragment()
-            2 -> return MapViewFragment()
+            1 -> return RestaurantListFragment()
+            2 -> return RestaurantListFragment()
 
         }
         Log.d("position", position.toString())
-        return MapViewFragment()
+        return RestaurantListFragment()
     }
 
 

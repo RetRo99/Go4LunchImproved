@@ -8,7 +8,7 @@ import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerView
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager
 
-class MapManager(private val location: Location, private val context:Context, val mapBoxMap: MapboxMap, val mapView: MapView) {
+class MapManager(val location:Location, private val context:Context, val mapBoxMap: MapboxMap, val mapView: MapView) {
 
     private val cameraPositionCreator=  CameraPositionCreator()
     private val markerCreator =MarkerCreator()
@@ -18,8 +18,8 @@ class MapManager(private val location: Location, private val context:Context, va
 
    }
 
-    fun setMarker(){
+    fun setMarker(lat:Double, lng:Double){
         val markerManager = MarkerViewManager(mapView,mapBoxMap)
-        markerManager.addMarker(markerCreator.getMarker(context,location))
+        markerManager.addMarker(markerCreator.getMarker(context,lat, lng))
     }
 }

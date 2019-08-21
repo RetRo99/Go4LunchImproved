@@ -13,9 +13,9 @@ import com.mapbox.mapboxsdk.plugins.markerview.MarkerViewManager
 
 class MarkerCreator {
 
-    fun getMarker(context:Context, location:Location):MarkerView   {
+    fun getMarker(context:Context, lat:Double, lng:Double):MarkerView   {
         val markerIconMaker = MarkerIconMaker()
-        return MarkerView(LatLng(location.latitude, location.longitude), markerIconMaker.getIcon(context))
+        return MarkerView(LatLng(lat, lng), markerIconMaker.getIcon(context))
     }
 
 }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
@@ -18,11 +19,14 @@ import mumayank.com.airlocationlibrary.AirLocation
 
 class MapViewFragment : Fragment() {
 
+    private lateinit var observer: Observer<List<Venue>>
     private lateinit var mapView: MapView
     private var airLocation: AirLocation? = null
     private lateinit var cameraPositionCreator: CameraPositionCreator
     private lateinit var mapManager: MapManager
     private lateinit var mapBoxMap: MapboxMap
+    private lateinit var repo: Repository
+
 
 
     @SuppressLint("MissingPermission")
@@ -44,18 +48,32 @@ class MapViewFragment : Fragment() {
             mapboxMap.setStyle(Style.MAPBOX_STREETS)
             mapBoxMap = mapboxMap
             getLocationAndZoom()
-
-
         }
+        repo = Repository()
+
+        observer = Observer { venues ->
+            for (item in venues) {
+                 
+                mapManager.setMarker(item.location.lat,item.location.lng)
+
+            }
+        }
+
+        repo.getNearbySquareRestaurant().observe(this, observer)
+
     }
 
     private fun getLocationAndZoom() {
         airLocation = AirLocation(activity!!, false, true, object : AirLocation.Callbacks {
             override fun onSuccess(location: Location) {
+                val lon = location.longitude
+                val lat = location.latitude
+                val locationString = "$lat,$lon"
+                repo.loadSquareNearbyRestaurants(locationString)
                 cameraPositionCreator = CameraPositionCreator()
                 mapManager= MapManager(location, context!!, mapBoxMap,mapView)
                 mapManager.animateCamera()
-                mapManager.setMarker()
+
 
             }
 

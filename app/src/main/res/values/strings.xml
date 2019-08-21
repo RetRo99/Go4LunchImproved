@@ -5,4 +5,7 @@
     <string name="workmates_view">Workmates</string>
 
     <string name="permissions_denied">This app needs location permissions to work properly</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
