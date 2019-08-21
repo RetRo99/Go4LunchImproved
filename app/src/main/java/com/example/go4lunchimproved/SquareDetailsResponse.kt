@@ -26,7 +26,12 @@ data class Venue(
     @SerializedName("page") val page: Page?,
     @SerializedName("hours") val hours: Hours?,
     @SerializedName("bestPhoto") val bestPhoto: BestPhoto?
-) : Parcelable {
+) : Parcelable, Comparable<Venue> {
+    override fun compareTo(other: Venue): Int {
+        return if(other.location.distance!! > this.location.distance!!) -1 else 1
+    }
+
+
     constructor(source: Parcel) : this(
         source.readParcelable<SquareLocation>(SquareLocation::class.java.classLoader)!!,
         source.readString(),

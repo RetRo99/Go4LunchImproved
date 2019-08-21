@@ -49,7 +49,7 @@ class MapViewFragment : Fragment() {
             mapBoxMap = mapboxMap
             getLocationAndZoom()
         }
-        repo = Repository()
+        repo = Repository
 
         observer = Observer { venues ->
             for (item in venues) {

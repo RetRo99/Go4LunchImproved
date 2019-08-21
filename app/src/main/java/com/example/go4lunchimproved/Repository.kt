@@ -8,45 +8,49 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
 
-class Repository {
+object Repository {
 
     private var myCompositeDisposable: CompositeDisposable? = null
 
     private val nearbySquareRestaurants: MutableLiveData<List<Venue>> = MutableLiveData()
 
-    fun getNearbySquareRestaurant():MutableLiveData<List<Venue>>{
+    fun getNearbySquareRestaurant(): MutableLiveData<List<Venue>> {
         return nearbySquareRestaurants
     }
 
 
-
-    fun loadSquareNearbyRestaurants(locationString:String, distance:String = "100") {
+    fun loadSquareNearbyRestaurants(locationString: String, distance: String = "100") {
 
         val observable = ApiClient.getClientSquareRestaurant.getNearbySquareRestaurants(locationString, distance)
 
         observable
-             .subscribeOn(Schedulers.io())
-            .flatMapIterable { it.response.venues}
-            .onBackpressureBuffer(999999)
-            .flatMap{loadSquareResturantDetail(it.id, it.location.distance)} // Calls the method which returns a new Observable<Item>
+            .subscribeOn(Schedulers.io())
+            .flatMapIterable { it.response.venues }
+            .flatMap {
+                loadSquareResturantDetail(
+                    it.id,
+                    it.location.distance
+                )
+            } // Calls the method which returns a new Observable<Item>
             .observeOn(Schedulers.io())
-            .toList()
+            .toSortedList()
             .subscribeBy(
 
-                onSuccess = {nearbySquareRestaurants.postValue(it) ; Log.d("onsuccess","babee")},
-                onError =  { it.printStackTrace();Log.d("onrerror","babee") }
+                onSuccess = { nearbySquareRestaurants.postValue(it); Log.d("onsuccess", "babee") },
+                onError = { it.printStackTrace();Log.d("onrerror", "babee") }
             )
     }
 
- private fun loadSquareResturantDetail(id:String, distance: Int?):Flowable<Venue>{
-     val observer = ApiClient.getClientSquareRestaurant.getGetSquareRestaurantDetails(id)
-     return observer
-         .subscribeOn(Schedulers.io())
-         .map {it.response?.venue?.location?.distance = distance
-             it.response?.venue}
+    private fun loadSquareResturantDetail(id: String, distance: Int?): Flowable<Venue> {
+        val observer = ApiClient.getClientSquareRestaurant.getGetSquareRestaurantDetails(id)
+        return observer
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.response?.venue?.location?.distance = distance
+                it.response?.venue
+            }
 
 
-
- }
+    }
 
 }
