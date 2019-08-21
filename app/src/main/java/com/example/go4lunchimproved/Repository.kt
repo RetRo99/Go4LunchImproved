@@ -38,12 +38,12 @@ class Repository {
             )
     }
 
- private fun loadSquareResturantDetail(id:String, distance: Int):Flowable<Venue>{
+ private fun loadSquareResturantDetail(id:String, distance: Int?):Flowable<Venue>{
      val observer = ApiClient.getClientSquareRestaurant.getGetSquareRestaurantDetails(id)
      return observer
          .subscribeOn(Schedulers.io())
-         .map {it.response.venue.location.distance = distance
-             it.response.venue}
+         .map {it.response?.venue?.location?.distance = distance
+             it.response?.venue}
 
 
 

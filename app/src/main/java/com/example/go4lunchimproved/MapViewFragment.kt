@@ -54,7 +54,7 @@ class MapViewFragment : Fragment() {
         observer = Observer { venues ->
             for (item in venues) {
                  
-                mapManager.setMarker(item.location.lat,item.location.lng)
+                mapManager.setMarker(item.location.lat,item.location.lng, item)
 
             }
         }
@@ -69,6 +69,7 @@ class MapViewFragment : Fragment() {
                 val lon = location.longitude
                 val lat = location.latitude
                 val locationString = "$lat,$lon"
+
                 repo.loadSquareNearbyRestaurants(locationString)
                 cameraPositionCreator = CameraPositionCreator()
                 mapManager= MapManager(location, context!!, mapBoxMap,mapView)

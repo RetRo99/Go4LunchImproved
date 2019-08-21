@@ -13,7 +13,7 @@ interface SquareRestaurantApi {
 
 
     @GET("search")
-    fun getNearbySquareRestaurants(@Query("ll", encoded = true) location:String, @Query("radius") radius:String = "10"): Flowable<SquareRestaurantResponse>
+    fun getNearbySquareRestaurants(@Query("ll", encoded = true) location:String, @Query("radius") radius:String = "100"): Flowable<SquareRestaurantResponse>
 
     @GET("{restaurant_id}/")
     fun getGetSquareRestaurantDetails(@Path("restaurant_id") id:String):Flowable<SquareDetailsResponse>
