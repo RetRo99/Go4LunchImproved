@@ -38,6 +38,9 @@ dependencies {
     //for tablayout
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 
+
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
     //for  permissions
     implementation 'com.github.quickpermissions:quickpermissions-kotlin:0.4.0'
 

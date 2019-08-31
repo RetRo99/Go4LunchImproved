@@ -66,8 +66,24 @@ data class Venue(
         }
     }
 
-    fun getPhotourl():String{
+    fun getPhotoUrl():String{
         return "${bestPhoto?.prefix}200x200${bestPhoto?.suffix}"
+    }
+
+    fun getAddressText():String{
+        return if(!location.address.isNullOrEmpty()){
+            "${categories?.get(0)?.name} - ${location.address}"
+        } else {
+            "${categories?.get(0)?.name}"
+        }
+    }
+
+    fun getDistanceText():String{
+        return "${location.distance}  m"
+    }
+
+    fun getOpeningHours():String{
+       return if(!hours?.status.isNullOrEmpty()) "${hours?.status}"  else "No opening hours avaliable"
     }
 }
 

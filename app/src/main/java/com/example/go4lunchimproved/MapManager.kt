@@ -13,9 +13,9 @@ class MapManager(val location:Location, private val context:Context, val mapBoxM
 
     private val cameraPositionCreator=  CameraPositionCreator()
     private val markerCreator =MarkerCreator()
-   fun animateCamera(){
+   fun animateCamera(duration:Int = 5000){
        mapBoxMap.animateCamera(
-           (CameraUpdateFactory.newCameraPosition(cameraPositionCreator.getFromLocation(location))), 5000)
+           (CameraUpdateFactory.newCameraPosition(cameraPositionCreator.getFromLocation(location))), duration)
 
    }
 

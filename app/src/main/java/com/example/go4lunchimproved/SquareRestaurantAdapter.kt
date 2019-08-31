@@ -1,5 +1,6 @@
 package com.example.go4lunchimproved
 
+import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,15 +15,21 @@ class SquareRestaurantAdapter(val restaurants:List<Venue> ): RecyclerView.Adapte
 
         fun bindRestaurant(restaurant: Venue){
             view.apply {
-                recycleItemTitle.text = restaurant.name
-                val addresstText = "${restaurant.categories?.get(0)?.name} - ${restaurant.location.address}"
-                recycleItemAddress.text = addresstText
+                fragment_list_restaurant_view_item_name.text = restaurant.name
 
-                val distance = "${restaurant.location.distance}  m"
-                recycleItemDistance.text = distance
+                fragment_list_restaurant_view_item_address.text = restaurant.getAddressText()
+                fragment_list_restaurant_view_item_distance.text = restaurant.getDistanceText()
+                fragment_list_restaurant_view_item_opening_hours.text = restaurant.getOpeningHours()
+                setOnClickListener{
+                    val detailIntent = Intent(context, RestaurantDetail::class.java)
+                    detailIntent.putExtra("venue", restaurant)
+                    context.startActivity(detailIntent)
 
-                val hours ="${restaurant.hours?.status}"
-                recycleItemHours.text = hours
+                }
+
+
+                
+                fragment_list_restaurant_view_item_image.loadPhotoFromUrl(restaurant.getPhotoUrl())
             }
         }
 

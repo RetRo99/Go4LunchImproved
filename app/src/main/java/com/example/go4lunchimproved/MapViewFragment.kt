@@ -14,6 +14,7 @@ import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
+import kotlinx.android.synthetic.main.fragment_map_view.*
 import mumayank.com.airlocationlibrary.AirLocation
 
 
@@ -57,6 +58,10 @@ class MapViewFragment : Fragment() {
                 mapManager.setMarker(item.location.lat,item.location.lng, item)
 
             }
+        }
+
+        locationFab.setOnClickListener {
+            mapManager.animateCamera(1000)
         }
 
         repo.getNearbySquareRestaurant().observe(this, observer)

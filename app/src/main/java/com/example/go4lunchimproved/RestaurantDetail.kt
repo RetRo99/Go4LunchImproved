@@ -16,7 +16,7 @@ class RestaurantDetail : AppCompatActivity(){
         setContentView(R.layout.fragment_restaurant_detail)
 
         val restaurant = intent.extras!!.getParcelable<Venue>("venue")
-       imageviewdetail.loadPhotoFromUrl(restaurant!!.getPhotourl())
+       imageviewdetail.loadPhotoFromUrl(restaurant!!.getPhotoUrl())
         titleTextView.text = restaurant.name
         locationTextView.text = restaurant.location.address
         callConstraint.setOnClickListener {

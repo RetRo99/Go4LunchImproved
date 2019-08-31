@@ -1,7 +1,6 @@
 package com.example.go4lunchimproved
 
 import android.content.Context
-import androidx.fragment.app.FragmentTransaction
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerView
 
