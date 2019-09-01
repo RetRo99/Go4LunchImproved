@@ -19,7 +19,7 @@ object Repository {
     }
 
 
-    fun loadSquareNearbyRestaurants(locationString: String, distance: String = "7000") {
+    fun loadSquareNearbyRestaurants(locationString: String, distance: String = "100") {
 
         val observable = ApiClient.getClientSquareRestaurant.getNearbySquareRestaurants(locationString, distance)
 

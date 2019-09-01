@@ -22,11 +22,12 @@ class RestaurantDetail : AppCompatActivity() {
         locationTextView.text = restaurant.getAddressText()
         callConstraint.setOnClickListener {
             if (restaurant.getPhoneNumber().isNullOrEmpty()) {
-                Toast.makeText(this, "No phone number available", Toast.LENGTH_LONG).show()
-                startActivity(intent)
+                Toast.makeText(this, "No phone number available", Toast.LENGTH_SHORT).show()
+
             } else {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:${restaurant.contact?.phone}")
+                intent.data = Uri.parse("tel:${restaurant.getPhoneNumber()}" )
+                startActivity(intent)
             }
 
         }
@@ -36,13 +37,13 @@ class RestaurantDetail : AppCompatActivity() {
         }
         websiteConstraint.setOnClickListener {
             if (restaurant.getWebsite().isNullOrEmpty()) {
-                Toast.makeText(this, "No website available", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "No website available", Toast.LENGTH_SHORT).show()
 
 
             } else {
                 val browserIntent = Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(restaurant.page!!.pageInfo!!.links!!.items!![0].toString())
+                    Uri.parse(restaurant.getWebsite())
                 )
                 startActivity(browserIntent)
 
