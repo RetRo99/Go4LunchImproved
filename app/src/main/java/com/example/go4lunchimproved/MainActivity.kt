@@ -8,7 +8,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager.widget.PagerAdapter
+import com.firebase.ui.auth.AuthMethodPickerLayout
+import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,7 +32,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             rationaleMessage = resources.getString(R.string.permissions_denied),
             permanentlyDeniedMessage = "Custom permanently denied message"
         )
-        setupNavigation()
+
+        startApp()
 
 
     }
@@ -69,6 +73,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
 
+    }
+
+    fun startApp(){
+
+        if (FirebaseAuth.getInstance().currentUser == null) {
+            val RC_SIGN_IN = 123
+
+            val providers = arrayListOf(
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.FacebookBuilder().build()
+                //AuthUI.IdpConfig.TwitterBuilder().build()
+            )
+
+
+            val customLayout = AuthMethodPickerLayout.Builder(R.layout.activity_login)
+                .setGoogleButtonId(R.id.signIn_google)
+                .setFacebookButtonId(R.id.signIn_facebook)
+               // .setTwitterButtonId(R.id.signIn_twitter)
+                .build()
+
+            startActivityForResult(
+                AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(providers as MutableList<AuthUI.IdpConfig>)
+                    .setAuthMethodPickerLayout(customLayout)
+                    .setTheme(R.style.AuthenticationTheme)
+                    .setIsSmartLockEnabled(false)
+                    .build(),
+                RC_SIGN_IN
+            )
+
+        }
+        else{
+            setupNavigation()
+        }
+        
     }
 
 

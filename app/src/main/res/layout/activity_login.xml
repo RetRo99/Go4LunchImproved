@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:orientation="vertical"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:id="@+id/constraintLayout">
+
+    <ImageView
+            android:layout_width="209dp"
+            android:layout_height="145dp" app:srcCompat="@drawable/ic_logo_restaurant"
+            android:id="@+id/imageView"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+    <TextView
+            android:text="@string/go4lunch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textSize="50sp"
+
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="@string/login_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.shaishavgandhi.loginbuttons.GoogleButton
+                android:id="@+id/signIn_google"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                app:iconSize="30dp"
+                app:roundedCorner="true"
+                app:roundedCornerRadius="75dp"
+                android:layout_margin="20dp"
+                android:textColor="@android:color/black"
+                android:text="@string/sign_in_with_google"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toTopOf="@+id/signIn_facebook" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="1.0"/>
+
+
+        <com.shaishavgandhi.loginbuttons.FacebookButton
+                android:id="@+id/signIn_facebook"
+                android:layout_width="match_parent"
+                android:text="@string/sign_in_with_facebook"
+                app:iconSize="30dp"
+                app:roundedCorner="true"
+                app:roundedCornerRadius="75dp"
+                android:layout_margin="20dp"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="-36dp" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/signIn_twitter"/>
+
+        <com.shaishavgandhi.loginbuttons.TwitterButton
+                android:id="@+id/signIn_twitter"
+                android:layout_width="match_parent"
+                app:iconSize="30dp"
+                app:roundedCorner="true"
+                app:roundedCornerRadius="75dp"
+                android:layout_margin="20dp"
+                android:text="@string/sign_in_with_twitter"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

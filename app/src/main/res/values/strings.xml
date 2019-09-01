@@ -5,7 +5,16 @@
     <string name="workmates_view">Workmates</string>
 
     <string name="permissions_denied">This app needs location permissions to work properly</string>
+    <string name="login_description">Find a nice restaurant and invite your co-workers for lunch!</string>
+    <string name="sign_in_with_twitter">Sign in with Twitter</string>
+    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+
+    <string name="facebook_application_id" translatable="false">335868633806974</string>
+    <!-- Facebook Application ID, prefixed by 'fb'. Enables Chrome Custom tabs. -->
+    <string name="facebook_login_protocol_scheme" translatable="false">fb335868633806974</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>                           
+    <string name="go4lunch">Go4Lunch</string>
 </resources>
