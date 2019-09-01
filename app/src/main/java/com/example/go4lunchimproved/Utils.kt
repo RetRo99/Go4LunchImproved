@@ -23,12 +23,8 @@ fun ImageView.loadProfilePhoto(url: Uri?){
 }
 
 fun ImageView.loadPhotoFromUrl(photoReference:String){
-    if(photoReference.isEmpty()){
-        TODO("if empty url")
-    }else{
         Glide.with(this)
             .load(photoReference)
             .placeholder(ColorDrawable(Color.BLACK))
             .into(this)
-    }
     }

@@ -8,7 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.fragment_restaurant_detail.*
 
-class RestaurantDetail : AppCompatActivity(){
+
+class RestaurantDetail : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,31 +17,39 @@ class RestaurantDetail : AppCompatActivity(){
         setContentView(R.layout.fragment_restaurant_detail)
 
         val restaurant = intent.extras!!.getParcelable<Venue>("venue")
-       imageviewdetail.loadPhotoFromUrl(restaurant!!.getPhotoUrl())
+        imageviewdetail.loadPhotoFromUrl(restaurant!!.getPhotoUrl())
         titleTextView.text = restaurant.name
-        locationTextView.text = restaurant.location.address
+        locationTextView.text = restaurant.getAddressText()
         callConstraint.setOnClickListener {
-            if (!restaurant.contact?.phone.isNullOrEmpty()) {
-                val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:${restaurant.contact?.phone}")
+            if (restaurant.getPhoneNumber().isNullOrEmpty()) {
+                Toast.makeText(this, "No phone number available", Toast.LENGTH_LONG).show()
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "No phone number available", Toast.LENGTH_LONG).show()
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:${restaurant.contact?.phone}")
             }
 
         }
-        /*websiteConstraint.setOnClickListener {
-            if (!restaurant.website.isNullOrEmpty()) {
-                val i = Intent(Intent.ACTION_VIEW)
-                i.data = Uri.parse(restaurant.website)
-                startActivity(i)
-            } else {
-                Toast.makeText(view?.context, "No website number available", Toast.LENGTH_LONG).show()
 
-            }    */
+        pickFab.setOnClickListener {
+            pickFab.setImageResource(R.drawable.ic_check_circle_30dp)
+        }
+        websiteConstraint.setOnClickListener {
+            if (restaurant.getWebsite().isNullOrEmpty()) {
+                Toast.makeText(this, "No website available", Toast.LENGTH_LONG).show()
+
+
+            } else {
+                val browserIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(restaurant.page!!.pageInfo!!.links!!.items!![0].toString())
+                )
+                startActivity(browserIntent)
+
+            }
         }
 
     }
-    
+}
 
 

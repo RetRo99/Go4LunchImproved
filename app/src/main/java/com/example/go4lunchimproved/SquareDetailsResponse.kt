@@ -67,7 +67,16 @@ data class Venue(
     }
 
     fun getPhotoUrl():String{
-        return "${bestPhoto?.prefix}200x200${bestPhoto?.suffix}"
+        return "${bestPhoto?.prefix}1920x1080${bestPhoto?.suffix}"
+    }
+
+    fun getWebsite(): String? {
+        return page?.pageInfo?.links?.items?.get(0)?.url
+    }
+
+    fun getPhoneNumber():String?{
+        return contact?.phone
+
     }
 
     fun getAddressText():String{
