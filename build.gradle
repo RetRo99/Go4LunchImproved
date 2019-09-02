@@ -25,6 +25,8 @@ allprojects {
         mavenCentral()
 
         maven { url "http://jitpack.io/"}
+        maven { url 'https://maven.fabric.io/public' }
+
 
     }
 }

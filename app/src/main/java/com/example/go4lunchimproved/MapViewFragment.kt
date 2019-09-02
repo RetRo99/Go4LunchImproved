@@ -69,7 +69,7 @@ class MapViewFragment : Fragment() {
     }
 
     private fun getLocationAndZoom() {
-        airLocation = AirLocation(activity!!, false, false, object : AirLocation.Callbacks {
+        airLocation = AirLocation(activity!!, true, false, object : AirLocation.Callbacks {
             override fun onSuccess(location: Location) {
                 val lon = location.longitude
                 val lat = location.latitude

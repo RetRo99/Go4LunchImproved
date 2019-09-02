@@ -14,6 +14,9 @@
     <!-- Facebook Application ID, prefixed by 'fb'. Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fb335868633806974</string>
 
+    <string name="twitter_consumer_key" translatable="false">veninQx7CAQiRVlwOWEUZevO6</string>
+    <string name="twitter_consumer_secret" translatable="false">KTqriGKbHFObPlreoNRnC3CSL4orILysCwdL5pbH4z4buxatfl</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>                           
     <string name="go4lunch">Go4Lunch</string>

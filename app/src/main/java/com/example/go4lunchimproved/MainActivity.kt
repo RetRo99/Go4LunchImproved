@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -72,6 +73,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navigationView.setNavigationItemSelectedListener(this)
 
+        setupHeader()
+
 
     }
 
@@ -82,15 +85,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val providers = arrayListOf(
                 AuthUI.IdpConfig.GoogleBuilder().build(),
-                AuthUI.IdpConfig.FacebookBuilder().build()
-                //AuthUI.IdpConfig.TwitterBuilder().build()
+                AuthUI.IdpConfig.FacebookBuilder().build(),
+                AuthUI.IdpConfig.TwitterBuilder().build()
             )
 
 
             val customLayout = AuthMethodPickerLayout.Builder(R.layout.activity_login)
                 .setGoogleButtonId(R.id.signIn_google)
                 .setFacebookButtonId(R.id.signIn_facebook)
-               // .setTwitterButtonId(R.id.signIn_twitter)
+               .setTwitterButtonId(R.id.signIn_twitter)
                 .build()
 
             startActivityForResult(
@@ -104,11 +107,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 RC_SIGN_IN
             )
 
+        setupNavigation()
+
         }
         else{
             setupNavigation()
         }
         
+    }
+
+    private fun setupHeader() {
+        val header = navigationView.getHeaderView(0)
+        val user= FirebaseAuth.getInstance().currentUser
+
+        header.apply {
+            nav_img_profile.loadProfilePhoto(user?.photoUrl)
+            nav_email.text = user?.email
+            nav_name.text = user?.displayName
+        }
     }
 
 
