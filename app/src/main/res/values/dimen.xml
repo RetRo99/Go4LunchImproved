@@ -13,4 +13,6 @@
     <dimen name="recycler_image_height">75dip</dimen>
     <dimen name="recycler_image_margin">5dip</dimen>
     <dimen name="recycler_text_margin">10dp</dimen>
+
+    <dimen name="margin">5dip</dimen>
 </resources>

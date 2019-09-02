@@ -21,7 +21,7 @@ class TabAdapter(fm: FragmentManager, private val context: Context):FragmentStat
         when(position){
             0 -> return MapViewFragment()
             1 -> return RestaurantListFragment()
-            2 -> return RestaurantListFragment()
+            2 -> return WorkmatesListFragment()
 
         }
         Log.d("position", position.toString())

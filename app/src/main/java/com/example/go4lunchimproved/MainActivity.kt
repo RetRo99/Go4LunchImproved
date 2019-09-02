@@ -10,8 +10,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager.widget.PagerAdapter
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
+import com.github.pierry.simpletoast.SimpleToast
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import kotlinx.android.synthetic.main.activity_main.*
@@ -118,13 +120,43 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun setupHeader() {
         val header = navigationView.getHeaderView(0)
-        val user= FirebaseAuth.getInstance().currentUser
+        val user = FirebaseAuth.getInstance().currentUser
 
         header.apply {
-            nav_img_profile.loadProfilePhoto(user?.photoUrl)
+            nav_img_profile.loadProfilePhoto(user?.photoUrl.toString())
             nav_email.text = user?.email
             nav_name.text = user?.displayName
         }
+        val db = FirebaseFirestore.getInstance()
+
+
+        val uids: ArrayList<String> = ArrayList()
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    uids.add(document["uid"].toString())
+
+                }
+
+                if (!uids.contains(user?.uid)) {
+                    val userToAdd =
+                        User(user?.uid, user?.displayName, user?.email, user?.photoUrl.toString())
+                    db.collection("users")
+                        .add(userToAdd)
+                        .addOnSuccessListener {
+                            SimpleToast.ok(this, "Saved the user")
+
+                        }
+                        .addOnFailureListener { e ->
+                            SimpleToast.error(this, "Error saving the user")
+                        }
+                }else{
+                    SimpleToast.warning(this, "User already in databse")
+                }
+
+
+            }
     }
 
 
