@@ -1,6 +1,6 @@
 package com.example.go4lunchimproved
 
-import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -8,13 +8,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager.widget.PagerAdapter
+import com.example.go4lunchimproved.FireStoreManager.saveOrSetCurrentUser
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
-import com.github.pierry.simpletoast.SimpleToast
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
@@ -22,19 +20,14 @@ import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var quickPermissionsOption: QuickPermissionsOptions
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
+    private val RC_SIGN_IN = 123
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        quickPermissionsOption = QuickPermissionsOptions(
-            handleRationale = true,
-            rationaleMessage = resources.getString(R.string.permissions_denied),
-            permanentlyDeniedMessage = "Custom permanently denied message"
-        )
 
         startApp()
 
@@ -42,10 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    private fun setupNavigation() = runWithPermissions(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION, options = quickPermissionsOption
-    ) {
+    private fun setupNavigation() {
 
         val OFFSCREEN_PAGES = 2
         val adapter: PagerAdapter = TabAdapter(supportFragmentManager, this)
@@ -80,10 +70,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    fun startApp(){
+    fun startApp() {
 
         if (FirebaseAuth.getInstance().currentUser == null) {
-            val RC_SIGN_IN = 123
+
 
             val providers = arrayListOf(
                 AuthUI.IdpConfig.GoogleBuilder().build(),
@@ -95,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val customLayout = AuthMethodPickerLayout.Builder(R.layout.activity_login)
                 .setGoogleButtonId(R.id.signIn_google)
                 .setFacebookButtonId(R.id.signIn_facebook)
-               .setTwitterButtonId(R.id.signIn_twitter)
+                .setTwitterButtonId(R.id.signIn_twitter)
                 .build()
 
             startActivityForResult(
@@ -109,54 +99,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 RC_SIGN_IN
             )
 
-        setupNavigation()
-
-        }
-        else{
+        } else {
+            saveOrSetCurrentUser()
             setupNavigation()
         }
-        
+
     }
 
     private fun setupHeader() {
         val header = navigationView.getHeaderView(0)
-        val user = FirebaseAuth.getInstance().currentUser
 
         header.apply {
-            nav_img_profile.loadProfilePhoto(user?.photoUrl.toString())
-            nav_email.text = user?.email
-            nav_name.text = user?.displayName
+            val user = FireStoreManager.getCurrentUser()
+            nav_img_profile.loadProfilePhoto(user.photoUrl.toString())
+            nav_email.text = user.email
+            nav_name.text = user.name
         }
-        val db = FirebaseFirestore.getInstance()
 
 
-        val uids: ArrayList<String> = ArrayList()
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    uids.add(document["uid"].toString())
-
-                }
-
-                if (!uids.contains(user?.uid)) {
-                    val userToAdd =
-                        User(user?.uid, user?.displayName, user?.email, user?.photoUrl.toString())
-                    db.collection("users")
-                        .add(userToAdd)
-                        .addOnSuccessListener {
-                            SimpleToast.ok(this, "Saved the user")
-
-                        }
-                        .addOnFailureListener { e ->
-                            SimpleToast.error(this, "Error saving the user")
-                        }
-                }else{
-                    SimpleToast.warning(this, "User already in databse")
-                }
-
-
-            }
     }
 
 
@@ -184,6 +144,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                saveOrSetCurrentUser()
+                setupNavigation()
+
+            }
+
+        }
+
+    }
 
 }
 
