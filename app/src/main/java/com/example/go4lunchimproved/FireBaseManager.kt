@@ -1,7 +1,5 @@
 package com.example.go4lunchimproved
 
-import android.content.ContentValues
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -10,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 object FireBaseManager {
 
     init {
+        getRestaurants()
         getUsers()
     }
 
@@ -24,6 +23,23 @@ object FireBaseManager {
 
     fun getAllUsers(): MutableLiveData<ArrayList<User>> {
         return allUsers
+    }
+
+    val visitedRestaurants: ArrayList<String> = ArrayList()
+
+
+    private fun getRestaurants() {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("restaurants")
+            .get()
+            .addOnSuccessListener {
+                for (document in it) {
+                    visitedRestaurants.add(document.id)
+                }
+
+
+            }
     }
 
     fun setFireStoreUser() {
@@ -47,6 +63,7 @@ object FireBaseManager {
 
                 } else {
                     currentUser.postValue(result.toObject(User::class.java)!!)
+
                 }
 
 
@@ -77,6 +94,16 @@ object FireBaseManager {
 
     fun getFireBaseUser(): FirebaseUser? {
         return FirebaseAuth.getInstance().currentUser
+    }
+
+    fun updateUser(id:String?) {
+        val db = FirebaseFirestore.getInstance()
+
+        val userRef = db.collection("users").document(currentUser.value?.uid!!)
+
+// Set the "isCapital" field of the city 'DC'
+        userRef
+            .update("name", "jst sm kekec")
     }
 
 

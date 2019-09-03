@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 
 data class SquareDetailsResponse(
 
-    @SerializedName("response") val response: ResponseDetail?
+    @SerializedName("response") val response: ResponseDetail? )
 
-)
+
 
 data class ResponseDetail(
 
@@ -16,7 +16,7 @@ data class ResponseDetail(
 )
 
 data class Venue(
-
+    @SerializedName("id") val id: String?,
     @SerializedName("location") val location: SquareLocation,
     @SerializedName("name") val name: String?,
     @SerializedName("categories") val categories: List<Categorie>?,
@@ -26,44 +26,9 @@ data class Venue(
     @SerializedName("page") val page: Page?,
     @SerializedName("hours") val hours: Hours?,
     @SerializedName("bestPhoto") val bestPhoto: BestPhoto?
-) : Parcelable, Comparable<Venue> {
+) : Parcelable, Comparable<Venue>{
     override fun compareTo(other: Venue): Int {
         return if (other.location.distance!! > this.location.distance!!) -1 else 1
-    }
-
-
-    constructor(source: Parcel) : this(
-        source.readParcelable<SquareLocation>(SquareLocation::class.java.classLoader)!!,
-        source.readString(),
-        source.createTypedArrayList(Categorie.CREATOR),
-        source.readString(),
-        source.readParcelable<Contact>(Contact::class.java.classLoader),
-        source.readString(),
-        source.readParcelable<Page>(Page::class.java.classLoader),
-        source.readParcelable<Hours>(Hours::class.java.classLoader),
-        source.readParcelable<BestPhoto>(BestPhoto::class.java.classLoader)
-    )
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeParcelable(location, 0)
-        writeString(name)
-        writeTypedList(categories)
-        writeString(distance)
-        writeParcelable(contact, 0)
-        writeString(description)
-        writeParcelable(page, 0)
-        writeParcelable(hours, 0)
-        writeParcelable(bestPhoto, 0)
-    }
-
-    companion object {
-        @JvmField
-        val CREATOR: Parcelable.Creator<Venue> = object : Parcelable.Creator<Venue> {
-            override fun createFromParcel(source: Parcel): Venue = Venue(source)
-            override fun newArray(size: Int): Array<Venue?> = arrayOfNulls(size)
-        }
     }
 
     fun getPhotoUrl(): String {
@@ -93,6 +58,42 @@ data class Venue(
 
     fun getOpeningHours(): String {
         return if (!hours?.status.isNullOrEmpty()) "${hours?.status}" else "No opening hours avaliable"
+    }
+
+    constructor(source: Parcel) : this(
+    source.readString(),
+    source.readParcelable<SquareLocation>(SquareLocation::class.java.classLoader)!!,
+    source.readString(),
+    source.createTypedArrayList(Categorie.CREATOR),
+    source.readString(),
+    source.readParcelable<Contact>(Contact::class.java.classLoader),
+    source.readString(),
+    source.readParcelable<Page>(Page::class.java.classLoader),
+    source.readParcelable<Hours>(Hours::class.java.classLoader),
+    source.readParcelable<BestPhoto>(BestPhoto::class.java.classLoader)
+    )
+
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(id)
+        writeParcelable(location, 0)
+        writeString(name)
+        writeTypedList(categories)
+        writeString(distance)
+        writeParcelable(contact, 0)
+        writeString(description)
+        writeParcelable(page, 0)
+        writeParcelable(hours, 0)
+        writeParcelable(bestPhoto, 0)
+    }
+
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<Venue> = object : Parcelable.Creator<Venue> {
+            override fun createFromParcel(source: Parcel): Venue = Venue(source)
+            override fun newArray(size: Int): Array<Venue?> = arrayOfNulls(size)
+        }
     }
 }
 

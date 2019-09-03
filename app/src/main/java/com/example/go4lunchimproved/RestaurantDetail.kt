@@ -34,6 +34,7 @@ class RestaurantDetail : AppCompatActivity() {
 
         pickFab.setOnClickListener {
             pickFab.setImageResource(R.drawable.ic_check_circle_30dp)
+            FireBaseManager.updateUser(restaurant.id)
         }
         websiteConstraint.setOnClickListener {
             if (restaurant.getWebsite().isNullOrEmpty()) {

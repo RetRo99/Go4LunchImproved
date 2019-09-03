@@ -61,7 +61,6 @@ class MapViewFragment : Fragment() {
 
         observer = Observer { venues ->
             for (item in venues) {
-
                 mapManager.setMarker(item.location.lat, item.location.lng, item)
 
             }
