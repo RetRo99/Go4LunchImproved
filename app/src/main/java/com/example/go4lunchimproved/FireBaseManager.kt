@@ -20,9 +20,9 @@ object FireBaseManager {
 
     }
 
-    private val allUsers: MutableLiveData<List<User>> = MutableLiveData()
+    private val allUsers: MutableLiveData<ArrayList<User>> = MutableLiveData()
 
-    fun getAllUsers(): MutableLiveData<List<User>> {
+    fun getAllUsers(): MutableLiveData<ArrayList<User>> {
         return allUsers
     }
 
@@ -57,21 +57,22 @@ object FireBaseManager {
         val db = FirebaseFirestore.getInstance()
 
         val users: ArrayList<User> = ArrayList()
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
+
+        val docRef = db.collection("users")
+        docRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                return@addSnapshotListener
+            }
+            if (snapshot != null) {
+                users.clear()
+                for (document in snapshot) {
                     val user = document.toObject(User::class.java)
                     users.add(user)
                 }
                 allUsers.postValue(users)
 
             }
-            .addOnFailureListener { exception ->
-                Log.d(ContentValues.TAG, "Error getting documents: ", exception)
-
-
-            }
+        }
     }
 
     fun getFireBaseUser(): FirebaseUser? {

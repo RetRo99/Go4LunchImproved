@@ -5,9 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_list_workmates_view_item.view.*
 
-class UserAdapter(val users: List<User>) : RecyclerView.Adapter<UserAdapter.UserHolder>() {
+class UserAdapter(private var users:ArrayList<User>): RecyclerView.Adapter<UserAdapter.UserHolder>() {
     override fun getItemCount(): Int {
-        return users.size
+return users.size    }
+
+    fun update(modelList:ArrayList<User>){
+        users = modelList
+        this.notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: UserHolder, position: Int) {
@@ -24,7 +28,7 @@ class UserAdapter(val users: List<User>) : RecyclerView.Adapter<UserAdapter.User
     class UserHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
 
-        fun bindUser(user: User) {
+         fun bindUser(user: User) {
             view.apply {
                 fragment_list_workmates_view_item_workmate_photo.loadProfilePhoto(user.photoUrl)
                 fragment_list_workmates_view_item_workmate_details.text = user.name

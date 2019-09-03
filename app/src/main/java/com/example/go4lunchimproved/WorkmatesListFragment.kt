@@ -14,7 +14,8 @@ import kotlinx.android.synthetic.main.fragment_workmates_list.*
 
 class WorkmatesListFragment : Fragment() {
 
-    private lateinit var observer: Observer<List<User>>
+    private lateinit var observer: Observer<ArrayList<User>>
+    private lateinit var adapter: UserAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,11 +27,17 @@ class WorkmatesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         observer = Observer { users ->
-            val adapter = UserAdapter(users)
-            val linearLayoutManager = LinearLayoutManager(context)
-            recycle_workmates.layoutManager = linearLayoutManager
-            recycle_workmates.adapter = adapter
+            if(::adapter.isInitialized){
+                    adapter.update(users)
+            }else{
+                adapter = UserAdapter(users)
+                val linearLayoutManager = LinearLayoutManager(context)
+                recycle_workmates.layoutManager = linearLayoutManager
+                recycle_workmates.adapter = adapter
+            }
+
 
         }
 
