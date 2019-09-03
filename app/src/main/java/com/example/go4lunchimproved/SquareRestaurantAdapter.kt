@@ -6,21 +6,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.restaurant_recycle_item.view.*
 
-class SquareRestaurantAdapter(val restaurants:List<Venue> ): RecyclerView.Adapter<SquareRestaurantAdapter.SquareRestaurantHolder>() {
+class SquareRestaurantAdapter(val restaurants: List<Venue>) :
+    RecyclerView.Adapter<SquareRestaurantAdapter.SquareRestaurantHolder>() {
 
 
-
-    class SquareRestaurantHolder(v: View) : RecyclerView.ViewHolder(v){
+    class SquareRestaurantHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
 
-        fun bindRestaurant(restaurant: Venue){
+        fun bindRestaurant(restaurant: Venue) {
             view.apply {
                 fragment_list_restaurant_view_item_name.text = restaurant.name
 
                 fragment_list_restaurant_view_item_address.text = restaurant.getAddressText()
                 fragment_list_restaurant_view_item_distance.text = restaurant.getDistanceText()
                 fragment_list_restaurant_view_item_opening_hours.text = restaurant.getOpeningHours()
-                setOnClickListener{
+                setOnClickListener {
                     val detailIntent = Intent(context, RestaurantDetail::class.java)
                     detailIntent.putExtra("venue", restaurant)
                     context.startActivity(detailIntent)
@@ -28,7 +28,7 @@ class SquareRestaurantAdapter(val restaurants:List<Venue> ): RecyclerView.Adapte
                 }
 
 
-                
+
                 fragment_list_restaurant_view_item_image.loadPhotoFromUrl(restaurant.getPhotoUrl())
             }
         }
@@ -43,7 +43,7 @@ class SquareRestaurantAdapter(val restaurants:List<Venue> ): RecyclerView.Adapte
     }
 
     override fun getItemCount(): Int {
-     return restaurants.size
+        return restaurants.size
     }
 
     override fun onBindViewHolder(holder: SquareRestaurantHolder, position: Int) {

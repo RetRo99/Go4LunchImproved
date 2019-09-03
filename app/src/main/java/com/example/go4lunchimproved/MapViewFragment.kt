@@ -44,37 +44,39 @@ class MapViewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        quickPermissionsOption = QuickPermissionsOptions(handleRationale = true,
+        quickPermissionsOption = QuickPermissionsOptions(
+            handleRationale = true,
             rationaleMessage = resources.getString(R.string.permissions_denied),
-            permanentlyDeniedMessage = "Custom permanently denied message" )
+            permanentlyDeniedMessage = "Custom permanently denied message"
+        )
 
-                    mapView = view . findViewById (R.id.mapView)
-                    mapView . onCreate (savedInstanceState)
-                    mapView . getMapAsync { mapboxMap ->
-                mapboxMap.setStyle(Style.MAPBOX_STREETS)
-                mapBoxMap = mapboxMap
+        mapView = view.findViewById(R.id.mapView)
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync { mapboxMap ->
+            mapboxMap.setStyle(Style.MAPBOX_STREETS)
+            mapBoxMap = mapboxMap
+            getLocationAndZoom()
+        }
+        repo = Repository
+
+        observer = Observer { venues ->
+            for (item in venues) {
+
+                mapManager.setMarker(item.location.lat, item.location.lng, item)
+
+            }
+        }
+
+        locationFab.setOnClickListener {
+            if (::mapManager.isInitialized) {
+                mapManager.animateCamera(1000)
+            } else {
                 getLocationAndZoom()
             }
-                    repo = Repository
 
-                    observer = Observer { venues ->
-                for (item in venues) {
+        }
 
-                    mapManager.setMarker(item.location.lat, item.location.lng, item)
-
-                }
-            }
-
-                    locationFab . setOnClickListener {
-                if (::mapManager.isInitialized) {
-                    mapManager.animateCamera(1000)
-                } else {
-                    getLocationAndZoom()
-                }
-
-            }
-
-                    repo . getNearbySquareRestaurant ().observe(this, observer)
+        repo.getNearbySquareRestaurant().observe(this, observer)
 
     }
 

@@ -2,7 +2,6 @@ package com.example.go4lunchimproved
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,16 +14,16 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 }
 
-fun ImageView.loadProfilePhoto(url: String?){
+fun ImageView.loadProfilePhoto(url: String?) {
     Glide.with(this)
         .load(url)
         .apply(RequestOptions.circleCropTransform())
         .into(this)
 }
 
-fun ImageView.loadPhotoFromUrl(photoReference:String){
-        Glide.with(this)
-            .load(photoReference)
-            .placeholder(ColorDrawable(Color.BLACK))
-            .into(this)
-    }
+fun ImageView.loadPhotoFromUrl(photoReference: String) {
+    Glide.with(this)
+        .load(photoReference)
+        .placeholder(ColorDrawable(Color.BLACK))
+        .into(this)
+}

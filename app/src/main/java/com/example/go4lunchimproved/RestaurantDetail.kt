@@ -26,7 +26,7 @@ class RestaurantDetail : AppCompatActivity() {
 
             } else {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:${restaurant.getPhoneNumber()}" )
+                intent.data = Uri.parse("tel:${restaurant.getPhoneNumber()}")
                 startActivity(intent)
             }
 

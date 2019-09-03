@@ -21,7 +21,8 @@ object Repository {
 
     fun loadSquareNearbyRestaurants(locationString: String, distance: String = "100") {
 
-        val observable = ApiClient.getClientSquareRestaurant.getNearbySquareRestaurants(locationString, distance)
+        val observable =
+            ApiClient.getClientSquareRestaurant.getNearbySquareRestaurants(locationString, distance)
 
         observable
             .subscribeOn(Schedulers.io())

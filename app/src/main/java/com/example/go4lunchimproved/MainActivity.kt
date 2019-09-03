@@ -7,13 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
-import com.example.go4lunchimproved.FireStoreManager.saveOrSetCurrentUser
+import com.example.go4lunchimproved.FireBaseManager.getCurrentUser
+import com.example.go4lunchimproved.FireBaseManager.getFireBaseUser
+import com.example.go4lunchimproved.FireBaseManager.setFireStoreUser
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private val RC_SIGN_IN = 123
+    private lateinit var observer: Observer<User>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +74,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun startApp() {
+        observer = Observer { user ->
+            val header = navigationView.getHeaderView(0)
+            header.apply {
+                nav_img_profile.loadProfilePhoto(user.photoUrl.toString())
+                nav_email.text = user.email
+                nav_name.text = user.name
+            }
+        }
 
-        if (FirebaseAuth.getInstance().currentUser == null) {
+        if (getFireBaseUser() == null) {
 
 
             val providers = arrayListOf(
@@ -88,34 +99,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .setTwitterButtonId(R.id.signIn_twitter)
                 .build()
 
-            startActivityForResult(
-                AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setAvailableProviders(providers as MutableList<AuthUI.IdpConfig>)
-                    .setAuthMethodPickerLayout(customLayout)
-                    .setTheme(R.style.AuthenticationTheme)
-                    .setIsSmartLockEnabled(false)
-                    .build(),
-                RC_SIGN_IN
-            )
+                startActivityForResult(
+                    AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers as MutableList<AuthUI.IdpConfig>)
+                        .setAuthMethodPickerLayout(customLayout)
+                        .setTheme(R.style.AuthenticationTheme)
+                        .setIsSmartLockEnabled(false)
+                        .build(),
+                    RC_SIGN_IN
+                )
 
         } else {
-            saveOrSetCurrentUser()
+            setFireStoreUser()
             setupNavigation()
         }
 
     }
 
     private fun setupHeader() {
-        val header = navigationView.getHeaderView(0)
 
-        header.apply {
-            val user = FireStoreManager.getCurrentUser()
-            nav_img_profile.loadProfilePhoto(user.photoUrl.toString())
-            nav_email.text = user.email
-            nav_name.text = user.name
-        }
-
+        getCurrentUser().observe(this, observer)
 
     }
 
@@ -148,7 +152,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
-                saveOrSetCurrentUser()
+                setFireStoreUser()
                 setupNavigation()
 
             }

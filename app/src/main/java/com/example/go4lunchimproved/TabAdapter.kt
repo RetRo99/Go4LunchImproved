@@ -7,7 +7,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 
-class TabAdapter(fm: FragmentManager, private val context: Context):FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class TabAdapter(fm: FragmentManager, private val context: Context) :
+    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
 
     private val TAB_TITLES = arrayOf(
@@ -18,7 +19,7 @@ class TabAdapter(fm: FragmentManager, private val context: Context):FragmentStat
 
 
     override fun getItem(position: Int): Fragment {
-        when(position){
+        when (position) {
             0 -> return MapViewFragment()
             1 -> return RestaurantListFragment()
             2 -> return WorkmatesListFragment()
@@ -27,8 +28,6 @@ class TabAdapter(fm: FragmentManager, private val context: Context):FragmentStat
         Log.d("position", position.toString())
         return RestaurantListFragment()
     }
-
-
 
 
     override fun getCount(): Int {

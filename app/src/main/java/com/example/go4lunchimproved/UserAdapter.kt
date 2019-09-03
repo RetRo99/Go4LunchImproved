@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_list_workmates_view_item.view.*
 
-class UserAdapter(val users:List<User>): RecyclerView.Adapter<UserAdapter.UserHolder>() {
+class UserAdapter(val users: List<User>) : RecyclerView.Adapter<UserAdapter.UserHolder>() {
     override fun getItemCount(): Int {
-return users.size    }
+        return users.size
+    }
 
     override fun onBindViewHolder(holder: UserHolder, position: Int) {
         holder.bindUser(users[position])
@@ -23,7 +24,7 @@ return users.size    }
     class UserHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
 
-         fun bindUser(user: User) {
+        fun bindUser(user: User) {
             view.apply {
                 fragment_list_workmates_view_item_workmate_photo.loadProfilePhoto(user.photoUrl)
                 fragment_list_workmates_view_item_workmate_details.text = user.name

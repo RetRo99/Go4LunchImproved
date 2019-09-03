@@ -12,7 +12,7 @@ import java.util.*
 
 object ApiClient {
 
-    var BASE_URL_SQUARE_API:String="https://api.foursquare.com/v2/venues/"
+    var BASE_URL_SQUARE_API: String = "https://api.foursquare.com/v2/venues/"
 
 
     val getClientSquareRestaurant: SquareRestaurantApi
@@ -24,25 +24,26 @@ object ApiClient {
                 .create()
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BASIC
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).addInterceptor { chain ->
-                val original = chain.request()
-                val originalHttpUrl = original.url()
+            val client =
+                OkHttpClient.Builder().addInterceptor(interceptor).addInterceptor { chain ->
+                    val original = chain.request()
+                    val originalHttpUrl = original.url()
 
-                val url = originalHttpUrl.newBuilder()
+                    val url = originalHttpUrl.newBuilder()
                         .addQueryParameter("client_id", BuildConfig.FOURSQUARE_ID)
-                    .addQueryParameter("client_secret", BuildConfig.FOURSQUARE_SECRET)
-                    .addQueryParameter("categoryId", "4d4b7105d754a06374d81259")
-                   .addQueryParameter("v", currentDate)
-                    .build()
+                        .addQueryParameter("client_secret", BuildConfig.FOURSQUARE_SECRET)
+                        .addQueryParameter("categoryId", "4d4b7105d754a06374d81259")
+                        .addQueryParameter("v", currentDate)
+                        .build()
 
-                // Request customization: add request headers
-                val requestBuilder = original.newBuilder()
-                    .url(url)
+                    // Request customization: add request headers
+                    val requestBuilder = original.newBuilder()
+                        .url(url)
 
 
-                val request = requestBuilder.build()
-                chain.proceed(request)
-            }.build()
+                    val request = requestBuilder.build()
+                    chain.proceed(request)
+                }.build()
 
 
             val retrofit = Retrofit.Builder()

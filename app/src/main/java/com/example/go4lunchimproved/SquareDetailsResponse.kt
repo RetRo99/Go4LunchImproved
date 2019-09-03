@@ -28,7 +28,7 @@ data class Venue(
     @SerializedName("bestPhoto") val bestPhoto: BestPhoto?
 ) : Parcelable, Comparable<Venue> {
     override fun compareTo(other: Venue): Int {
-        return if(other.location.distance!! > this.location.distance!!) -1 else 1
+        return if (other.location.distance!! > this.location.distance!!) -1 else 1
     }
 
 
@@ -66,7 +66,7 @@ data class Venue(
         }
     }
 
-    fun getPhotoUrl():String{
+    fun getPhotoUrl(): String {
         return "${bestPhoto?.prefix}1920x1080${bestPhoto?.suffix}"
     }
 
@@ -74,29 +74,27 @@ data class Venue(
         return page?.pageInfo?.links?.items?.get(0)?.url
     }
 
-    fun getPhoneNumber():String?{
+    fun getPhoneNumber(): String? {
         return contact?.phone
 
     }
 
-    fun getAddressText():String{
-        return if(!location.address.isNullOrEmpty()){
+    fun getAddressText(): String {
+        return if (!location.address.isNullOrEmpty()) {
             "${categories?.get(0)?.name} - ${location.address}"
         } else {
             "${categories?.get(0)?.name}"
         }
     }
 
-    fun getDistanceText():String{
+    fun getDistanceText(): String {
         return "${location.distance}  m"
     }
 
-    fun getOpeningHours():String{
-       return if(!hours?.status.isNullOrEmpty()) "${hours?.status}"  else "No opening hours avaliable"
+    fun getOpeningHours(): String {
+        return if (!hours?.status.isNullOrEmpty()) "${hours?.status}" else "No opening hours avaliable"
     }
 }
-
-
 
 
 data class Categorie(
@@ -179,10 +177,13 @@ data class SquareLocation(
 
     companion object {
         @JvmField
-        val CREATOR: Parcelable.Creator<SquareLocation> = object : Parcelable.Creator<SquareLocation> {
-            override fun createFromParcel(source: Parcel): SquareLocation = SquareLocation(source)
-            override fun newArray(size: Int): Array<SquareLocation?> = arrayOfNulls(size)
-        }
+        val CREATOR: Parcelable.Creator<SquareLocation> =
+            object : Parcelable.Creator<SquareLocation> {
+                override fun createFromParcel(source: Parcel): SquareLocation =
+                    SquareLocation(source)
+
+                override fun newArray(size: Int): Array<SquareLocation?> = arrayOfNulls(size)
+            }
     }
 }
 
