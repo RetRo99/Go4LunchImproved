@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.model
 
 import com.google.gson.annotations.SerializedName
 

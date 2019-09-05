@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.ui
 
 
 import android.Manifest
@@ -11,6 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.example.go4lunchimproved.*
+import com.example.go4lunchimproved.network.Repository
+import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.utils.CameraPositionCreator
+import com.example.go4lunchimproved.utils.MapManager
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.mapbox.mapboxsdk.Mapbox
@@ -91,7 +96,13 @@ class MapViewFragment : Fragment() {
 
                 repo.loadSquareNearbyRestaurants(locationString)
                 cameraPositionCreator = CameraPositionCreator()
-                mapManager = MapManager(location, context!!, mapBoxMap, mapView)
+                mapManager =
+                    MapManager(
+                        location,
+                        context!!,
+                        mapBoxMap,
+                        mapView
+                    )
                 mapManager.animateCamera()
 
 

@@ -1,5 +1,6 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.network
 
+import com.example.go4lunchimproved.BuildConfig
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,8 +31,12 @@ object ApiClient {
                     val originalHttpUrl = original.url()
 
                     val url = originalHttpUrl.newBuilder()
-                        .addQueryParameter("client_id", BuildConfig.FOURSQUARE_ID)
-                        .addQueryParameter("client_secret", BuildConfig.FOURSQUARE_SECRET)
+                        .addQueryParameter("client_id",
+                            BuildConfig.FOURSQUARE_ID
+                        )
+                        .addQueryParameter("client_secret",
+                            BuildConfig.FOURSQUARE_SECRET
+                        )
                         .addQueryParameter("categoryId", "4d4b7105d754a06374d81259")
                         .addQueryParameter("v", currentDate)
                         .build()

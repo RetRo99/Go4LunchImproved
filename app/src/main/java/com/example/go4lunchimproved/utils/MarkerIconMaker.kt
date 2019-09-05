@@ -1,16 +1,22 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.utils
 
 import android.content.Context
 import android.content.Intent
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.example.go4lunchimproved.network.FireBaseManager
+import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.ui.RestaurantDetail
 
 
 class MarkerIconMaker {
 
     fun getIcon(context: Context, venue: Venue): ImageView {
         val imageView = ImageView(context)
-        if(FireBaseManager.visitedRestaurants.contains(venue.id)) imageView.setImageResource(R.drawable.ic_restaurant_marker_green) else imageView.setImageResource(R.drawable.ic_restaurant_marker_orange)
+        if(FireBaseManager.visitedRestaurants.contains(venue.id)) imageView.setImageResource(R.drawable.ic_restaurant_marker_green) else imageView.setImageResource(
+            R.drawable.ic_restaurant_marker_orange
+        )
 
         val params = LinearLayout.LayoutParams(80, 80)
         return imageView.apply {

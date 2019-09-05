@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.model
 
 data class User(
     val uid: String? = "",

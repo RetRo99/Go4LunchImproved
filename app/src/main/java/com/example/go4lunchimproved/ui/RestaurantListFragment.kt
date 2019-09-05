@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.ui
 
 
 import android.annotation.SuppressLint
@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.go4lunchimproved.network.Repository
+import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.adapters.SquareRestaurantAdapter
+import com.example.go4lunchimproved.model.Venue
 
 
 class RestaurantListFragment : Fragment() {

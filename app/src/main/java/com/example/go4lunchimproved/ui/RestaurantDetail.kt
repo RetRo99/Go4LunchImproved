@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.ui
 
 
 import android.content.Intent
@@ -6,6 +6,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.go4lunchimproved.network.FireBaseManager
+import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.utils.loadPhotoFromUrl
 import kotlinx.android.synthetic.main.fragment_restaurant_detail.*
 
 

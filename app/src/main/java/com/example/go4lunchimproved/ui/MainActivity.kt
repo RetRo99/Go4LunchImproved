@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +9,13 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
-import com.example.go4lunchimproved.FireBaseManager.getCurrentUser
-import com.example.go4lunchimproved.FireBaseManager.getFireBaseUser
-import com.example.go4lunchimproved.FireBaseManager.setFireStoreUser
+import com.example.go4lunchimproved.network.FireBaseManager.getCurrentUser
+import com.example.go4lunchimproved.network.FireBaseManager.getFireBaseUser
+import com.example.go4lunchimproved.network.FireBaseManager.setFireStoreUser
+import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.adapters.TabAdapter
+import com.example.go4lunchimproved.model.User
+import com.example.go4lunchimproved.utils.loadProfilePhoto
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
@@ -41,7 +45,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun setupNavigation() {
 
         val OFFSCREEN_PAGES = 2
-        val adapter: PagerAdapter = TabAdapter(supportFragmentManager, this)
+        val adapter: PagerAdapter =
+            TabAdapter(supportFragmentManager, this)
 
         pager.adapter = adapter
         pager.offscreenPageLimit = OFFSCREEN_PAGES

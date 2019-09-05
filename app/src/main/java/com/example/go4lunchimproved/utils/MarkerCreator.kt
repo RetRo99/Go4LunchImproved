@@ -1,6 +1,7 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.utils
 
 import android.content.Context
+import com.example.go4lunchimproved.model.Venue
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.plugins.markerview.MarkerView
 

@@ -1,10 +1,14 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.adapters
 
 import android.content.Context
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.ui.MapViewFragment
+import com.example.go4lunchimproved.ui.RestaurantListFragment
+import com.example.go4lunchimproved.ui.WorkmatesListFragment
 
 
 class TabAdapter(fm: FragmentManager, private val context: Context) :

@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".WorkmatesListFragment">
+        tools:context=".ui.WorkmatesListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

@@ -1,5 +1,7 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.network
 
+import com.example.go4lunchimproved.model.SquareDetailsResponse
+import com.example.go4lunchimproved.model.SquareRestaurantResponse
 import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Path

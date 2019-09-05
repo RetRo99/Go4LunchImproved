@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.utils
 
 import android.location.Location
 import com.mapbox.mapboxsdk.camera.CameraPosition

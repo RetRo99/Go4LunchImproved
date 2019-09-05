@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.utils
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

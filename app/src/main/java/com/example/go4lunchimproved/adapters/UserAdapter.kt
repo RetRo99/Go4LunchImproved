@@ -1,8 +1,12 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.adapters
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.model.User
+import com.example.go4lunchimproved.utils.inflate
+import com.example.go4lunchimproved.utils.loadProfilePhoto
 import kotlinx.android.synthetic.main.fragment_list_workmates_view_item.view.*
 
 class UserAdapter(private var users:ArrayList<User>): RecyclerView.Adapter<UserAdapter.UserHolder>() {

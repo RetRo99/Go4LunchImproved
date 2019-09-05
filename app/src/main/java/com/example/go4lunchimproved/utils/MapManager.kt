@@ -1,7 +1,8 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.utils
 
 import android.content.Context
 import android.location.Location
+import com.example.go4lunchimproved.model.Venue
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap

@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.ui
 
 
 import android.os.Bundle
@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.go4lunchimproved.FireBaseManager.getAllUsers
+import com.example.go4lunchimproved.network.FireBaseManager.getAllUsers
+import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.model.User
+import com.example.go4lunchimproved.adapters.UserAdapter
 import kotlinx.android.synthetic.main.fragment_workmates_list.*
 
 

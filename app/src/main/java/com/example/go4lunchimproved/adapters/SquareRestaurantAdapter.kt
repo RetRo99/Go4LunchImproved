@@ -1,9 +1,14 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.adapters
 
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.utils.inflate
+import com.example.go4lunchimproved.utils.loadPhotoFromUrl
+import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.ui.RestaurantDetail
 import kotlinx.android.synthetic.main.restaurant_recycle_item.view.*
 
 class SquareRestaurantAdapter(val restaurants: List<Venue>) :
@@ -39,7 +44,9 @@ class SquareRestaurantAdapter(val restaurants: List<Venue>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SquareRestaurantHolder {
         val inflatedView = parent.inflate(R.layout.restaurant_recycle_item, false)
-        return SquareRestaurantHolder(inflatedView)
+        return SquareRestaurantHolder(
+            inflatedView
+        )
     }
 
     override fun getItemCount(): Int {

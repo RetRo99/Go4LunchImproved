@@ -1,7 +1,8 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.network
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.go4lunchimproved.model.Venue
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy

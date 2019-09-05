@@ -1,6 +1,7 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.network
 
 import androidx.lifecycle.MutableLiveData
+import com.example.go4lunchimproved.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -62,7 +63,8 @@ object FireBaseManager {
                         .set(user)
 
                 } else {
-                    currentUser.postValue(result.toObject(User::class.java)!!)
+                    currentUser.postValue(result.toObject(
+                        User::class.java)!!)
 
                 }
 

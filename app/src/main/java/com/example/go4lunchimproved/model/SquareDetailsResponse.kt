@@ -1,4 +1,4 @@
-package com.example.go4lunchimproved
+package com.example.go4lunchimproved.model
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -91,7 +91,8 @@ data class Venue(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Venue> = object : Parcelable.Creator<Venue> {
-            override fun createFromParcel(source: Parcel): Venue = Venue(source)
+            override fun createFromParcel(source: Parcel): Venue =
+                Venue(source)
             override fun newArray(size: Int): Array<Venue?> = arrayOfNulls(size)
         }
     }
@@ -127,7 +128,8 @@ data class Categorie(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Categorie> = object : Parcelable.Creator<Categorie> {
-            override fun createFromParcel(source: Parcel): Categorie = Categorie(source)
+            override fun createFromParcel(source: Parcel): Categorie =
+                Categorie(source)
             override fun newArray(size: Int): Array<Categorie?> = arrayOfNulls(size)
         }
     }
@@ -205,7 +207,8 @@ data class Contact(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Contact> = object : Parcelable.Creator<Contact> {
-            override fun createFromParcel(source: Parcel): Contact = Contact(source)
+            override fun createFromParcel(source: Parcel): Contact =
+                Contact(source)
             override fun newArray(size: Int): Array<Contact?> = arrayOfNulls(size)
         }
     }
@@ -237,7 +240,8 @@ data class BestPhoto(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<BestPhoto> = object : Parcelable.Creator<BestPhoto> {
-            override fun createFromParcel(source: Parcel): BestPhoto = BestPhoto(source)
+            override fun createFromParcel(source: Parcel): BestPhoto =
+                BestPhoto(source)
             override fun newArray(size: Int): Array<BestPhoto?> = arrayOfNulls(size)
         }
     }
@@ -260,7 +264,8 @@ data class Page(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Page> = object : Parcelable.Creator<Page> {
-            override fun createFromParcel(source: Parcel): Page = Page(source)
+            override fun createFromParcel(source: Parcel): Page =
+                Page(source)
             override fun newArray(size: Int): Array<Page?> = arrayOfNulls(size)
         }
     }
@@ -289,7 +294,8 @@ data class PageInfo(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<PageInfo> = object : Parcelable.Creator<PageInfo> {
-            override fun createFromParcel(source: Parcel): PageInfo = PageInfo(source)
+            override fun createFromParcel(source: Parcel): PageInfo =
+                PageInfo(source)
             override fun newArray(size: Int): Array<PageInfo?> = arrayOfNulls(size)
         }
     }
@@ -315,7 +321,8 @@ data class Links(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Links> = object : Parcelable.Creator<Links> {
-            override fun createFromParcel(source: Parcel): Links = Links(source)
+            override fun createFromParcel(source: Parcel): Links =
+                Links(source)
             override fun newArray(size: Int): Array<Links?> = arrayOfNulls(size)
         }
     }
@@ -339,7 +346,8 @@ data class Items(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Items> = object : Parcelable.Creator<Items> {
-            override fun createFromParcel(source: Parcel): Items = Items(source)
+            override fun createFromParcel(source: Parcel): Items =
+                Items(source)
             override fun newArray(size: Int): Array<Items?> = arrayOfNulls(size)
         }
     }
@@ -374,7 +382,8 @@ data class Hours(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Hours> = object : Parcelable.Creator<Hours> {
-            override fun createFromParcel(source: Parcel): Hours = Hours(source)
+            override fun createFromParcel(source: Parcel): Hours =
+                Hours(source)
             override fun newArray(size: Int): Array<Hours?> = arrayOfNulls(size)
         }
     }
@@ -400,7 +409,8 @@ data class RichStatus(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<RichStatus> = object : Parcelable.Creator<RichStatus> {
-            override fun createFromParcel(source: Parcel): RichStatus = RichStatus(source)
+            override fun createFromParcel(source: Parcel): RichStatus =
+                RichStatus(source)
             override fun newArray(size: Int): Array<RichStatus?> = arrayOfNulls(size)
         }
     }
