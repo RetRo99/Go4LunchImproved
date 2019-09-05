@@ -31,6 +31,8 @@ data class Venue(
         return if (other.location.distance!! > this.location.distance!!) -1 else 1
     }
 
+    
+
     fun getPhotoUrl(): String {
         return "${bestPhoto?.prefix}1920x1080${bestPhoto?.suffix}"
     }

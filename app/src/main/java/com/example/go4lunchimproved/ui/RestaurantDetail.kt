@@ -6,10 +6,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.go4lunchimproved.network.FireBaseManager
 import com.example.go4lunchimproved.R
 import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.network.FireBaseManager
 import com.example.go4lunchimproved.utils.loadPhotoFromUrl
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_restaurant_detail.*
 
 
@@ -20,8 +21,10 @@ class RestaurantDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_restaurant_detail)
 
+
         val restaurant = intent.extras!!.getParcelable<Venue>("venue")
         imageviewdetail.loadPhotoFromUrl(restaurant!!.getPhotoUrl())
+        var isPickedRestaurant = FireBaseManager.getPickedRestaurant().equals(restaurant.id)  && FireBaseManager.getPickedRestaurant() != ""
         titleTextView.text = restaurant.name
         locationTextView.text = restaurant.getAddressText()
         callConstraint.setOnClickListener {
@@ -35,10 +38,22 @@ class RestaurantDetail : AppCompatActivity() {
             }
 
         }
+        if (isPickedRestaurant) setPickedIcon()
+
+
 
         pickFab.setOnClickListener {
-            pickFab.setImageResource(R.drawable.ic_check_circle_30dp)
-            FireBaseManager.updateUser(restaurant.id)
+            if (!isPickedRestaurant) {
+                FireBaseManager.updateUser(restaurant)
+                setPickedIcon()
+                isPickedRestaurant = true
+            }else{
+                 FireBaseManager.updateUser(restaurant, true)
+                pickFab.setImageResource(R.drawable.ic_check_circle_black_24dp)
+                isPickedRestaurant = false
+
+            }
+
         }
         websiteConstraint.setOnClickListener {
             if (restaurant.getWebsite().isNullOrEmpty()) {
@@ -56,6 +71,11 @@ class RestaurantDetail : AppCompatActivity() {
         }
 
     }
+
+    private fun setPickedIcon() {
+        pickFab.setImageResource(R.drawable.ic_check_circle_30dp)
+    }
 }
+
 
 

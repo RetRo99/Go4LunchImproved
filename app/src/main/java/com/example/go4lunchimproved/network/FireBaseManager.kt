@@ -2,6 +2,7 @@ package com.example.go4lunchimproved.network
 
 import androidx.lifecycle.MutableLiveData
 import com.example.go4lunchimproved.model.User
+import com.example.go4lunchimproved.model.Venue
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,6 +18,16 @@ object FireBaseManager {
 
     fun getCurrentUser(): MutableLiveData<User> {
         return currentUser
+
+    }
+
+    fun getPickedRestaurant():String? {
+        return currentUser.value?.restaurantId
+
+    }
+
+   private fun getRestaurantText():String? {
+        return currentUser.value?.name
 
     }
 
@@ -98,14 +109,36 @@ object FireBaseManager {
         return FirebaseAuth.getInstance().currentUser
     }
 
-    fun updateUser(id:String?) {
+    fun updateUser(restaurant: Venue?, deletePicked:Boolean = false) {
         val db = FirebaseFirestore.getInstance()
+        val firstName = currentUser.value?.name?.substringBefore(" ")
 
-        val userRef = db.collection("users").document(currentUser.value?.uid!!)
+        if(!deletePicked){
+            val restaurantType = restaurant?.categories?.get(0)?.name
+            val restaurantName = restaurant?.name
+            val pickedRestaurantText = "$firstName is eating $restaurantType ($restaurantName)"
 
-// Set the "isCapital" field of the city 'DC'
-        userRef
-            .update("name", "jst sm kekec")
+
+            db.collection("users").document(currentUser.value?.uid!!).update("restaurantId", restaurant?.id)
+            db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", pickedRestaurantText)
+
+            currentUser.value!!.restaurantId = restaurant?.id
+            currentUser.value!!.pickedRestaurantText = pickedRestaurantText
+
+        }else{
+            db.collection("users").document(currentUser.value?.uid!!).update("restaurantId","")
+            db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", "$firstName hasn't decided yet")
+            currentUser.value!!.restaurantId = ""
+            currentUser.value!!.pickedRestaurantText = ""
+
+
+
+        }
+
+
+
+
+
     }
 
 

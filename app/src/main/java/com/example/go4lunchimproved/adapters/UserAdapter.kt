@@ -35,7 +35,7 @@ return users.size    }
          fun bindUser(user: User) {
             view.apply {
                 fragment_list_workmates_view_item_workmate_photo.loadProfilePhoto(user.photoUrl)
-                fragment_list_workmates_view_item_workmate_details.text = user.name
+                fragment_list_workmates_view_item_workmate_details.text = user.pickedRestaurantText
             }
         }
 

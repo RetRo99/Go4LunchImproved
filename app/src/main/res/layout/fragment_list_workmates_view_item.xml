@@ -7,12 +7,16 @@
     android:padding="@dimen/recycler_padding">
 
     <card_view:androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/fragment_list_workmates_view_item_card"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        card_view:cardCornerRadius="1dp">
+            xmlns:card_view="http://schemas.android.com/apk/res-auto" xmlns:app="http://schemas.android.com/tools"
+
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/card_view"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="5dp"
+            card_view:contentPadding="10dp">
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
