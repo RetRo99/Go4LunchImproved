@@ -47,6 +47,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.0.0'
     implementation "com.firebaseui:firebase-ui-firestore:5.0.0"
 
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+
 
     //for login buttons
     implementation 'com.shaishavgandhi:login-buttons:1.0.0'
@@ -56,6 +58,8 @@ dependencies {
     //for tablayout
     implementation 'com.google.android.material:material:1.1.0-alpha09'
 
+    implementation 'com.google.android.libraries.places:places:2.0.0'
+
 
     //For twitter and facebook login
     implementation 'com.facebook.android:facebook-login:5.4.0'
@@ -63,7 +67,6 @@ dependencies {
 
 
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-
 
 
     //for  permissions

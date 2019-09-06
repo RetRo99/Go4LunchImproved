@@ -6,20 +6,25 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.go4lunchimproved.R
+import com.example.go4lunchimproved.adapters.UserAdapter
+import com.example.go4lunchimproved.model.User
 import com.example.go4lunchimproved.model.Venue
 import com.example.go4lunchimproved.network.FireBaseManager
 import com.example.go4lunchimproved.utils.loadPhotoFromUrl
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_restaurant_detail.*
+import kotlinx.android.synthetic.main.activity_restaurant_detail.*
 
 
 class RestaurantDetail : AppCompatActivity() {
 
+    private lateinit var observer: Observer<ArrayList<User>>
+    private lateinit var adapter: UserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_restaurant_detail)
+        setContentView(R.layout.activity_restaurant_detail)
 
 
         val restaurant = intent.extras!!.getParcelable<Venue>("venue")
@@ -38,6 +43,22 @@ class RestaurantDetail : AppCompatActivity() {
             }
 
         }
+        observer = Observer {users ->
+            val filteredUsers: List<User> =   users.filter { user -> user.restaurantId.equals(restaurant.id)}
+            if(::adapter.isInitialized){
+                adapter.update(filteredUsers)
+            }else{
+                adapter = UserAdapter(filteredUsers, true)
+                val linearLayoutManager = LinearLayoutManager(this)
+                detailsViewRecycle.layoutManager = linearLayoutManager
+                detailsViewRecycle.adapter = adapter
+            }
+
+
+        }
+
+
+
         if (isPickedRestaurant) setPickedIcon()
 
 
@@ -69,6 +90,7 @@ class RestaurantDetail : AppCompatActivity() {
 
             }
         }
+        FireBaseManager.getAllUsers().observe(this, observer)
 
     }
 

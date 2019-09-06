@@ -32,10 +32,11 @@ class WorkmatesListFragment : Fragment() {
 
 
         observer = Observer { users ->
+            val filteredUsers = users.sortedBy { user -> user.pickedRestaurantText }.reversed()
             if(::adapter.isInitialized){
-                    adapter.update(users)
+                    adapter.update(filteredUsers)
             }else{
-                adapter = UserAdapter(users)
+                adapter = UserAdapter(filteredUsers)
                 val linearLayoutManager = LinearLayoutManager(context)
                 recycle_workmates.layoutManager = linearLayoutManager
                 recycle_workmates.adapter = adapter
