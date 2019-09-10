@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -27,11 +30,11 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private val RC_SIGN_IN = 123
@@ -65,13 +68,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         tab_layout.tabIndicatorGravity
 
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
 
 
         drawerLayout = findViewById(R.id.drawer_layout)
+
 
 
 
@@ -82,6 +82,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupHeader()
 
 
+    }
+
+    fun openDrawer(){
+        drawerLayout.openDrawer(GravityCompat.START)
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -123,22 +127,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             )
 
         } else {
-            val TAG = "Čič"
-            FirebaseInstanceId.getInstance().instanceId
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        Log.w(TAG, "getInstanceId failed", task.exception)
-                        return@OnCompleteListener
-                    }
-
-                    // Get new Instance ID token
-                    val token = task.result?.token
-
-                    // Log and toast
-                    val msg = getString(R.string.msg_token_fmt, token)
-                    Log.d(TAG, token)
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                })
             setFireStoreUser()
             setupNavigation()
         }
@@ -164,34 +152,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                drawerLayout.openDrawer(GravityCompat.START)
-                true
-            }
-            R.id.searchButton -> {
 
 
 
-                val fragment = AutocompleteFragment()
-                val fragmentManager = supportFragmentManager
-                val fragmentTransaction = fragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.toolbar,fragment,"gege")
-                fragmentTransaction.commit()
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.go4lunchimproved.*
+import com.example.go4lunchimproved.model.FragmentType
+import com.example.go4lunchimproved.model.TabFragment
 import com.example.go4lunchimproved.network.Repository
 import com.example.go4lunchimproved.model.Venue
 import com.example.go4lunchimproved.utils.CameraPositionCreator
@@ -23,10 +25,11 @@ import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
 import kotlinx.android.synthetic.main.fragment_map_view.*
+import kotlinx.android.synthetic.main.toolbar.*
 import mumayank.com.airlocationlibrary.AirLocation
 
 
-class MapViewFragment : Fragment() {
+class MapViewFragment : TabFragment() {
 
     private lateinit var observer: Observer<List<Venue>>
     private lateinit var mapView: MapView
@@ -54,6 +57,7 @@ class MapViewFragment : Fragment() {
             rationaleMessage = resources.getString(R.string.permissions_denied),
             permanentlyDeniedMessage = "Custom permanently denied message"
         )
+        setOnClickListeners(FragmentType.MAPVIEW)
 
         mapView = view.findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
@@ -79,6 +83,10 @@ class MapViewFragment : Fragment() {
             }
 
         }
+        navigationDrawerButton.setOnClickListener {
+            (activity as MainActivity).openDrawer()
+        }
+
 
         repo.getNearbySquareRestaurant().observe(this, observer)
 

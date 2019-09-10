@@ -1,5 +1,6 @@
 package com.example.go4lunchimproved.model
 
+import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -23,7 +24,7 @@ data class Venue(
     @SerializedName("distance") var distance: String?,
     @SerializedName("contact") val contact: Contact?,
     @SerializedName("description") val description: String?,
-    @SerializedName("page") val page: Page?,
+@SerializedName("page") val page: Page?,
     @SerializedName("hours") val hours: Hours?,
     @SerializedName("bestPhoto") val bestPhoto: BestPhoto?
 ) : Parcelable, Comparable<Venue>{
@@ -31,7 +32,16 @@ data class Venue(
         return if (other.location.distance!! > this.location.distance!!) -1 else 1
     }
 
-    
+    @SuppressLint("DefaultLocale")
+    fun matchesCriteria(criteria:String):Boolean {
+
+        return criteria.toLowerCase() in getAddressText().toLowerCase() || criteria.toLowerCase() in name!!.toLowerCase()
+
+    }
+
+
+
+
 
     fun getPhotoUrl(): String {
         return "${bestPhoto?.prefix}1920x1080${bestPhoto?.suffix}"
@@ -61,6 +71,7 @@ data class Venue(
     fun getOpeningHours(): String {
         return if (!hours?.status.isNullOrEmpty()) "${hours?.status}" else "No opening hours avaliable"
     }
+
 
     constructor(source: Parcel) : this(
     source.readString(),

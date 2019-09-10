@@ -5,8 +5,13 @@
         android:layout_height="match_parent"
         tools:context=".ui.WorkmatesListFragment">
 
+    <include
+            android:id="@+id/include"
+            layout="@layout/toolbar" />
+
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:id="@+id/recycle_workmates"
+            android:layout_marginTop="?attr/actionBarSize"
             android:layout_height="match_parent" />
 </FrameLayout>

@@ -6,17 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.go4lunchimproved.network.Repository
 import com.example.go4lunchimproved.R
 import com.example.go4lunchimproved.adapters.SquareRestaurantAdapter
+import com.example.go4lunchimproved.model.FragmentType
+import com.example.go4lunchimproved.model.TabFragment
 import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.network.Repository
 
 
-class RestaurantListFragment : Fragment() {
+class RestaurantListFragment : TabFragment() {
 
     private lateinit var observer: Observer<List<Venue>>
     private lateinit var repo: Repository
@@ -42,6 +43,8 @@ class RestaurantListFragment : Fragment() {
 
 
 
+        setOnClickListeners(FragmentType.RESTAURANTVIEW)
+
 
         observer = Observer {
             if (it != null) {
@@ -54,7 +57,7 @@ class RestaurantListFragment : Fragment() {
             }
         }
 
-        repo.getNearbySquareRestaurant().observe(this, observer)
+        repo.getListRestaurants().observe(this, observer)
     }
 
 

@@ -8,6 +8,11 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
+    <include
+            android:id="@+id/include"
+            layout="@layout/toolbar" />
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/locationFab"
             android:layout_width="397dp"
@@ -26,11 +31,16 @@
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            mapbox:mapbox_cameraTargetLat="40.73581"
-            mapbox:mapbox_cameraTargetLng="-73.99155"
-            mapbox:mapbox_cameraZoom="11"
+            android:layout_marginTop="?attr/actionBarSize"
+            mapbox:mapbox_cameraTargetLat="48.864716"
+            mapbox:mapbox_cameraTargetLng="2.349014"
+            mapbox:mapbox_cameraZoom="50"
             tools:layout_editor_absoluteX="-203dp"
             tools:layout_editor_absoluteY="85dp">
+
+
+
+
 
     </com.mapbox.mapboxsdk.maps.MapView>
 

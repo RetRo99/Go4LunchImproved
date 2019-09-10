@@ -31,13 +31,33 @@ object FireBaseManager {
 
     }
 
-    private val allUsers: MutableLiveData<ArrayList<User>> = MutableLiveData()
+    private val mAllUsers: MutableLiveData<ArrayList<User>> = MutableLiveData()
 
     fun getAllUsers(): MutableLiveData<ArrayList<User>> {
         return allUsers
     }
 
+    private var allUsers: MutableLiveData<ArrayList<User>> = MutableLiveData()
+
     val visitedRestaurants: ArrayList<String> = ArrayList()
+
+
+    fun filterUsers(criteria: String = "") {
+        if (criteria.isEmpty()) allUsers.postValue(mAllUsers.value)
+        else {
+            val matchingList = ArrayList<User>()
+            if (mAllUsers.value != null) {
+                for (user in mAllUsers.value!!) {
+                    if (user.matchesCriteria(criteria)) matchingList.add(user)
+                }
+
+            }
+            allUsers.value= matchingList
+
+        }
+
+
+    }
 
 
     private fun getRestaurants() {
@@ -99,6 +119,7 @@ object FireBaseManager {
                     val user = document.toObject(User::class.java)
                     users.add(user)
                 }
+                mAllUsers.postValue(users)
                 allUsers.postValue(users)
 
             }
@@ -127,7 +148,7 @@ object FireBaseManager {
 
         }else{
             db.collection("users").document(currentUser.value?.uid!!).update("restaurantId","")
-            db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", "$firstName hasn't decided yet")
+            db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", "")
             currentUser.value!!.restaurantId = ""
             currentUser.value!!.pickedRestaurantText = ""
 

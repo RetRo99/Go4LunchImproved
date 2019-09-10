@@ -12,10 +12,13 @@ import com.example.go4lunchimproved.network.FireBaseManager.getAllUsers
 import com.example.go4lunchimproved.R
 import com.example.go4lunchimproved.model.User
 import com.example.go4lunchimproved.adapters.UserAdapter
+import com.example.go4lunchimproved.model.FragmentType
+import com.example.go4lunchimproved.model.TabFragment
 import kotlinx.android.synthetic.main.fragment_workmates_list.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 
-class WorkmatesListFragment : Fragment() {
+class WorkmatesListFragment : TabFragment() {
 
     private lateinit var observer: Observer<ArrayList<User>>
     private lateinit var adapter: UserAdapter
@@ -44,6 +47,9 @@ class WorkmatesListFragment : Fragment() {
 
 
         }
+
+        setOnClickListeners(FragmentType.WORKMATESVIEW)
+
 
         getAllUsers().observe(this, observer)
 

@@ -1,6 +1,5 @@
 package com.example.go4lunchimproved.adapters
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +9,13 @@ import com.example.go4lunchimproved.utils.inflate
 import com.example.go4lunchimproved.utils.loadProfilePhoto
 import kotlinx.android.synthetic.main.fragment_list_workmates_view_item.view.*
 
-class UserAdapter(private var users:List<User>, val resturantView:Boolean = false): RecyclerView.Adapter<UserAdapter.UserHolder>() {
+class UserAdapter(private var users: List<User>, val resturantView: Boolean = false) :
+    RecyclerView.Adapter<UserAdapter.UserHolder>() {
     override fun getItemCount(): Int {
-return users.size    }
+        return users.size
+    }
 
-    fun update(modelList:List<User>){
+    fun update(modelList: List<User>) {
         users = modelList
         this.notifyDataSetChanged()
     }
@@ -33,15 +34,15 @@ return users.size    }
     class UserHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
 
-         fun bindUser(user: User, resturantView:Boolean) {
-             view.fragment_list_workmates_view_item_workmate_photo.loadProfilePhoto(user.photoUrl)
-             if(!resturantView) {
-                         view.fragment_list_workmates_view_item_workmate_details.text =
-                             user.pickedRestaurantText
-                     }else{
-                 val description =   "${user.name?.substringBefore(" ")} is joining!"
-                 view.fragment_list_workmates_view_item_workmate_details.text = description
-                 }
+        fun bindUser(user: User, resturantView: Boolean) {
+            view.fragment_list_workmates_view_item_workmate_photo.loadProfilePhoto(user.photoUrl)
+            if (!resturantView) {
+                view.fragment_list_workmates_view_item_workmate_details.text =
+                    user.getUserRestaurant()
+            } else {
+                val description = "${user.name?.substringBefore(" ")} is joining!"
+                view.fragment_list_workmates_view_item_workmate_details.text = description
+            }
 
         }
 

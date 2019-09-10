@@ -29,4 +29,6 @@ class MapManager(
         val markerManager = MarkerViewManager(mapView, mapBoxMap)
         markerManager.addMarker(markerCreator.getMarker(context, lat, lng, venue))
     }
+
+
 }
