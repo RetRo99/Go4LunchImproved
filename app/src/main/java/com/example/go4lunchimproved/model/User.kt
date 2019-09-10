@@ -10,8 +10,8 @@ data class User(
     var restaurantId:String? = "",
      var pickedRestaurantText:String? = "",
     var pickedDate:String = ""
-) {
-
+){
+    
     fun getUserRestaurant(): String {
         return if ((pickedRestaurantText!!.isEmpty()) || pickedDate != getCurrentDate())  "${name?.substringBefore(" ")} hasn't decided yet" else pickedRestaurantText.toString()
 

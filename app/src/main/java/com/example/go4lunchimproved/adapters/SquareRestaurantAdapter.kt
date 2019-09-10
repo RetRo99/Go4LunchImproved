@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.go4lunchimproved.R
-import com.example.go4lunchimproved.utils.inflate
-import com.example.go4lunchimproved.utils.loadPhotoFromUrl
 import com.example.go4lunchimproved.model.Venue
 import com.example.go4lunchimproved.ui.RestaurantDetail
+import com.example.go4lunchimproved.utils.inflate
+import com.example.go4lunchimproved.utils.loadPhotoFromUrl
 import kotlinx.android.synthetic.main.restaurant_recycle_item.view.*
 
 class SquareRestaurantAdapter(val restaurants: List<Venue>) :

@@ -19,7 +19,7 @@
         
 
 
-        <androidx.viewpager.widget.ViewPager
+        <com.example.go4lunchimproved.adapters.NoSwipePager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
