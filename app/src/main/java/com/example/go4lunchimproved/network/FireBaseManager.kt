@@ -1,11 +1,19 @@
+@file:Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+
 package com.example.go4lunchimproved.network
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.go4lunchimproved.model.User
 import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.utils.getCurrentDate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 object FireBaseManager {
 
@@ -116,8 +124,9 @@ object FireBaseManager {
             if (snapshot != null) {
                 users.clear()
                 for (document in snapshot) {
-                    val user = document.toObject(User::class.java)
-                    users.add(user)
+                        val user = document.toObject(User::class.java)
+                        users.add(user)
+
                 }
                 mAllUsers.postValue(users)
                 allUsers.postValue(users)
@@ -142,6 +151,7 @@ object FireBaseManager {
 
             db.collection("users").document(currentUser.value?.uid!!).update("restaurantId", restaurant?.id)
             db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", pickedRestaurantText)
+            db.collection("users").document(currentUser.value?.uid!!).update("pickedTime", getCurrentDate())
 
             currentUser.value!!.restaurantId = restaurant?.id
             currentUser.value!!.pickedRestaurantText = pickedRestaurantText
@@ -149,6 +159,7 @@ object FireBaseManager {
         }else{
             db.collection("users").document(currentUser.value?.uid!!).update("restaurantId","")
             db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", "")
+            db.collection("users").document(currentUser.value?.uid!!).update("pickedTime", "")
             currentUser.value!!.restaurantId = ""
             currentUser.value!!.pickedRestaurantText = ""
 

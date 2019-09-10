@@ -7,58 +7,53 @@ import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.go4lunchimproved.network.FireBaseManager.filterUsers
 import com.example.go4lunchimproved.network.Repository.filterListRestaurants
 import com.example.go4lunchimproved.ui.MainActivity
-import kotlinx.android.synthetic.main.toolbar.*
-import java.util.*
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.go4lunchimproved.utils.hideKeyboard
 import com.example.go4lunchimproved.utils.showKeyboard
+import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
 
 
-abstract class TabFragment:Fragment() {
+abstract class TabFragment : Fragment() {
 
-    private var VOICE_CODE:Int =666
+    private var VOICE_CODE: Int = 666
 
-    fun setSearchListener(fragmentType:FragmentType){
-        if(fragmentType == FragmentType.WORKMATESVIEW){
+    fun setSearchListener(fragmentType: FragmentType) {
+        if (fragmentType == FragmentType.WORKMATESVIEW) {
             searchEditText.hint = "Search Workmates"
         }
-    searchEditText.addTextChangedListener(object : TextWatcher {
+        searchEditText.addTextChangedListener(object : TextWatcher {
 
-        override fun afterTextChanged(s: Editable) {
+            override fun afterTextChanged(s: Editable) {
 
-        }
-
-        override fun beforeTextChanged(
-            s: CharSequence, start: Int,
-            count: Int, after: Int
-        ) {
-        }
-
-        override fun onTextChanged(
-            s: CharSequence, start: Int,
-            before: Int, count: Int
-        ) {
-            when(fragmentType){
-                FragmentType.RESTAURANTVIEW-> filterListRestaurants(s.toString())
-
-                FragmentType.WORKMATESVIEW->filterUsers(s.toString())
-                else -> true
             }
 
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
 
-        }
-    })
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                when (fragmentType) {
+                    FragmentType.RESTAURANTVIEW -> filterListRestaurants(s.toString())
+
+                    FragmentType.WORKMATESVIEW -> filterUsers(s.toString())
+                    else -> true
+                }
+
+
+            }
+        })
     }
 
-    fun setOnClickListeners(fragmentType:FragmentType) {
+    fun setOnClickListeners(fragmentType: FragmentType) {
         editTextClearButton.setOnClickListener {
             if (searchEditText.text.isEmpty()) {
                 searchLayout.visibility =
@@ -75,7 +70,7 @@ abstract class TabFragment:Fragment() {
             openSearchButton.visibility = View.INVISIBLE
             searchEditText.requestFocus()
             searchEditText.showKeyboard()
-            
+
         }
         micSearch.setOnClickListener {
             voice_to_text()
@@ -87,7 +82,7 @@ abstract class TabFragment:Fragment() {
     }
 
 
-        private fun voice_to_text() {
+    private fun voice_to_text() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(
             RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -123,6 +118,5 @@ abstract class TabFragment:Fragment() {
             }
         }
     }
-
 
 }

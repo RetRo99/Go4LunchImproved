@@ -1,6 +1,7 @@
 package com.example.go4lunchimproved.network
 
 import com.example.go4lunchimproved.BuildConfig
+import com.example.go4lunchimproved.utils.getCurrentDate
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,8 +19,6 @@ object ApiClient {
 
     val getClientSquareRestaurant: SquareRestaurantApi
         get() {
-            val sdf = SimpleDateFormat("YYYYMMDD")
-            val currentDate = sdf.format(Date())
             val gson = GsonBuilder()
                 .setLenient()
                 .create()
@@ -38,7 +37,7 @@ object ApiClient {
                             BuildConfig.FOURSQUARE_SECRET
                         )
                         .addQueryParameter("categoryId", "4d4b7105d754a06374d81259")
-                        .addQueryParameter("v", currentDate)
+                        .addQueryParameter("v", getCurrentDate())
                         .build()
 
                     // Request customization: add request headers
