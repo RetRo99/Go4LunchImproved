@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.go4lunchimproved.R
 import com.example.go4lunchimproved.adapters.UserAdapter
+import com.example.go4lunchimproved.model.FireStoreRestaurant
 import com.example.go4lunchimproved.model.User
 import com.example.go4lunchimproved.model.Venue
 import com.example.go4lunchimproved.network.FireBaseManager
@@ -27,24 +28,26 @@ class RestaurantDetail : AppCompatActivity() {
         setContentView(R.layout.activity_restaurant_detail)
 
 
-        val restaurant = intent.extras!!.getParcelable<Venue>("venue")
-        imageviewdetail.loadPhotoFromUrl(restaurant!!.getPhotoUrl())
-        var isPickedRestaurant = FireBaseManager.getPickedRestaurant().equals(restaurant.id)  && FireBaseManager.getPickedRestaurant() != ""
-        titleTextView.text = restaurant.name
-        locationTextView.text = restaurant.getAddressText()
+        val restaurant = intent.extras!!.getParcelable<FireStoreRestaurant>("venue")
+        imageviewdetail.loadPhotoFromUrl(restaurant!!.photoUrl)
+        var isPickedRestaurant = FireBaseManager.getPickedRestaurant().equals(restaurant.restaurantID)  && FireBaseManager.getPickedRestaurant() != ""
+        titleTextView.text = restaurant.restaurantName
+        locationTextView.text = restaurant.addresstext
         callConstraint.setOnClickListener {
-            if (restaurant.getPhoneNumber().isNullOrEmpty()) {
+            if (restaurant.phoneNumber.isNullOrEmpty()) {
                 Toast.makeText(this, "No phone number available", Toast.LENGTH_SHORT).show()
 
             } else {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:${restaurant.getPhoneNumber()}")
+                intent.data = Uri.parse("tel:${restaurant.phoneNumber}")
                 startActivity(intent)
             }
 
         }
+
+
         observer = Observer {users ->
-            val filteredUsers: List<User> =   users.filter { user -> user.restaurantId.equals(restaurant.id)}
+            val filteredUsers: List<User> =   users.filter { user -> user.restaurantId.equals(restaurant.restaurantID)}
             if(::adapter.isInitialized){
                 adapter.update(filteredUsers)
             }else{
@@ -77,14 +80,14 @@ class RestaurantDetail : AppCompatActivity() {
 
         }
         websiteConstraint.setOnClickListener {
-            if (restaurant.getWebsite().isNullOrEmpty()) {
+            if (restaurant.webSite.isNullOrEmpty()) {
                 Toast.makeText(this, "No website available", Toast.LENGTH_SHORT).show()
 
 
             } else {
                 val browserIntent = Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(restaurant.getWebsite())
+                    Uri.parse(restaurant.webSite)
                 )
                 startActivity(browserIntent)
 

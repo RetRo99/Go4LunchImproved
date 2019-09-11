@@ -2,6 +2,7 @@ package com.example.go4lunchimproved.utils
 
 import android.content.Context
 import android.location.Location
+import com.example.go4lunchimproved.model.FireStoreRestaurant
 import com.example.go4lunchimproved.model.Venue
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.maps.MapView
@@ -25,7 +26,7 @@ class MapManager(
 
     }
 
-    fun setMarker(lat: Double, lng: Double, venue: Venue) {
+    fun setMarker(lat: Double, lng: Double, venue: FireStoreRestaurant) {
         val markerManager = MarkerViewManager(mapView, mapBoxMap)
         markerManager.addMarker(markerCreator.getMarker(context, lat, lng, venue))
     }

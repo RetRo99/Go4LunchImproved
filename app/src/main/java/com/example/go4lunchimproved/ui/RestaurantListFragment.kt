@@ -10,19 +10,19 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.go4lunchimproved.R
-import com.example.go4lunchimproved.adapters.SquareRestaurantAdapter
+import com.example.go4lunchimproved.adapters.RestaurantAdapter
+import com.example.go4lunchimproved.model.FireStoreRestaurant
 import com.example.go4lunchimproved.model.FragmentType
 import com.example.go4lunchimproved.model.TabFragment
-import com.example.go4lunchimproved.model.Venue
 import com.example.go4lunchimproved.network.Repository
 
 
 class RestaurantListFragment : TabFragment() {
 
-    private lateinit var observer: Observer<List<Venue>>
+    private lateinit var observer: Observer<List<FireStoreRestaurant>>
     private lateinit var repo: Repository
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: SquareRestaurantAdapter
+    private lateinit var adapter: RestaurantAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
 
 
@@ -51,7 +51,7 @@ class RestaurantListFragment : TabFragment() {
                 linearLayoutManager = LinearLayoutManager(context)
                 recyclerView.layoutManager = linearLayoutManager
 
-                adapter = SquareRestaurantAdapter(it)
+                adapter = RestaurantAdapter(it)
                 recyclerView.adapter = adapter
 
             }

@@ -12,10 +12,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.go4lunchimproved.*
+import com.example.go4lunchimproved.model.FireStoreRestaurant
 import com.example.go4lunchimproved.model.FragmentType
 import com.example.go4lunchimproved.model.TabFragment
 import com.example.go4lunchimproved.network.Repository
 import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.network.FireBaseManager.loadRestaurants
 import com.example.go4lunchimproved.utils.CameraPositionCreator
 import com.example.go4lunchimproved.utils.MapManager
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
@@ -31,7 +33,7 @@ import mumayank.com.airlocationlibrary.AirLocation
 
 class MapViewFragment : TabFragment() {
 
-    private lateinit var observer: Observer<List<Venue>>
+    private lateinit var observer: Observer<List<FireStoreRestaurant>>
     private lateinit var mapView: MapView
     private var airLocation: AirLocation? = null
     private lateinit var cameraPositionCreator: CameraPositionCreator
@@ -70,7 +72,7 @@ class MapViewFragment : TabFragment() {
 
         observer = Observer { venues ->
             for (item in venues) {
-                mapManager.setMarker(item.location.lat, item.location.lng, item)
+                mapManager.setMarker(item.lat, item.lng, item)
 
             }
         }
@@ -102,7 +104,7 @@ class MapViewFragment : TabFragment() {
                 val lat = location.latitude
                 val locationString = "$lat,$lon"
 
-                repo.loadSquareNearbyRestaurants(locationString)
+                loadRestaurants(locationString)
                 cameraPositionCreator = CameraPositionCreator()
                 mapManager =
                     MapManager(

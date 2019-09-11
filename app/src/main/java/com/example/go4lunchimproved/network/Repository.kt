@@ -12,22 +12,22 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import android.speech.RecognizerIntent
 import android.content.Intent
 import android.app.Activity
-
-
+import com.example.go4lunchimproved.model.FireStoreRestaurant
+import com.example.go4lunchimproved.network.FireBaseManager.saveRestaurants
 
 
 object Repository {
 
 
-    private val nearbySquareRestaurants: MutableLiveData<List<Venue>> = MutableLiveData()
+    private val nearbySquareRestaurants: MutableLiveData<List<FireStoreRestaurant>> = MutableLiveData()
 
-    fun getNearbySquareRestaurant(): MutableLiveData<List<Venue>> {
+    fun getNearbySquareRestaurant(): MutableLiveData<List<FireStoreRestaurant>> {
         return nearbySquareRestaurants
     }
 
-    private var listRestaurants: MutableLiveData<List<Venue>> = MutableLiveData()
+    private var listRestaurants: MutableLiveData<List<FireStoreRestaurant>> = MutableLiveData()
 
-    fun getListRestaurants(): MutableLiveData<List<Venue>> {
+    fun getListRestaurants(): MutableLiveData<List<FireStoreRestaurant>> {
         return listRestaurants
 
 
@@ -37,7 +37,7 @@ object Repository {
     fun filterListRestaurants(criteria: String = "") {
         if (criteria.isEmpty()) listRestaurants.postValue(nearbySquareRestaurants.value)
         else {
-            val matchingList = ArrayList<Venue>()
+            val matchingList = ArrayList<FireStoreRestaurant>()
             if (nearbySquareRestaurants.value != null) {
                 for (venue in nearbySquareRestaurants.value!!) {
                     if (venue.matchesCriteria(criteria)) matchingList.add(venue)
@@ -52,7 +52,10 @@ object Repository {
     }
 
 
-    fun loadSquareNearbyRestaurants(locationString: String, distance: String = "100") {
+    fun loadSquareNearbyRestaurants(locationString: String, arrayList: ArrayList<FireStoreRestaurant>?,distance: String = "100") {
+
+        if (arrayList == null) {
+
 
         val observable =
             ApiClient.getClientSquareRestaurant.getNearbySquareRestaurants(
@@ -74,11 +77,24 @@ object Repository {
             .subscribeBy(
 
                 onSuccess = {
-                    nearbySquareRestaurants.postValue(it); Log.d("onsuccess", "babee")
-                    listRestaurants.postValue(it)
+                    val simpleRestaurantList:ArrayList<FireStoreRestaurant> = ArrayList()
+                    for (item in it){
+                        val simpleRestaurant = FireStoreRestaurant(item.id, item.name, item.getType(), item.getAddressText(), item.getOpeningHours(), item.getPhotoUrl(), item.getPhoneNumber(), item.getWebsite(), item.getDistanceText(), item.location.lat, item.location.lng)
+                        simpleRestaurantList.add(simpleRestaurant)
+                    }
+                    saveRestaurants(simpleRestaurantList)
+                    nearbySquareRestaurants.postValue(simpleRestaurantList); Log.d("onsuccess", "babee")
+                    listRestaurants.postValue(simpleRestaurantList)
                 },
                 onError = { it.printStackTrace();Log.d("onrerror", "babee") }
             )
+
+        }
+        else{
+            nearbySquareRestaurants.postValue(arrayList); Log.d("onsuccess", "babee")
+            listRestaurants.postValue(arrayList)
+
+        }
     }
 
     private fun loadSquareResturantDetail(id: String, distance: Int?): Flowable<Venue> {

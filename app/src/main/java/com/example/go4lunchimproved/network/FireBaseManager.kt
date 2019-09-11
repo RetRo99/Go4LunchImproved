@@ -2,18 +2,14 @@
 
 package com.example.go4lunchimproved.network
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.go4lunchimproved.model.FireStoreRestaurant
 import com.example.go4lunchimproved.model.User
-import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.network.Repository.loadSquareNearbyRestaurants
 import com.example.go4lunchimproved.utils.getCurrentDate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import java.lang.Exception
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 object FireBaseManager {
 
@@ -29,17 +25,17 @@ object FireBaseManager {
 
     }
 
-    fun getPickedRestaurant():String? {
+    fun getPickedRestaurant(): String? {
         return currentUser.value?.restaurantId
 
     }
 
-   private fun getRestaurantText():String? {
+    private fun getRestaurantText(): String? {
         return currentUser.value?.name
 
     }
 
-    private val mAllUsers: MutableLiveData<ArrayList<User>> = MutableLiveData()
+    private var mAllUsers: ArrayList<User> = ArrayList()
 
     fun getAllUsers(): MutableLiveData<ArrayList<User>> {
         return allUsers
@@ -51,21 +47,20 @@ object FireBaseManager {
 
 
     fun filterUsers(criteria: String = "") {
-        if (criteria.isEmpty()) allUsers.postValue(mAllUsers.value)
+        if (criteria.isEmpty()) allUsers.postValue(mAllUsers)
         else {
             val matchingList = ArrayList<User>()
-            if (mAllUsers.value != null) {
-                for (user in mAllUsers.value!!) {
-                    if (user.matchesCriteria(criteria)) matchingList.add(user)
-                }
-
+            for (user in mAllUsers) {
+                if (user.matchesCriteria(criteria)) matchingList.add(user)
             }
-            allUsers.value= matchingList
+            allUsers.value = matchingList
 
         }
 
 
     }
+
+
 
 
     private fun getRestaurants() {
@@ -102,8 +97,11 @@ object FireBaseManager {
                         .set(user)
 
                 } else {
-                    currentUser.postValue(result.toObject(
-                        User::class.java)!!)
+                    currentUser.postValue(
+                        result.toObject(
+                            User::class.java
+                        )!!
+                    )
 
                 }
 
@@ -111,67 +109,102 @@ object FireBaseManager {
             }
     }
 
-    private fun getUsers() {
+    fun loadRestaurants(locationString: String) {
         val db = FirebaseFirestore.getInstance()
-
-        val users: ArrayList<User> = ArrayList()
-
-        val docRef = db.collection("users")
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                return@addSnapshotListener
-            }
-            if (snapshot != null) {
-                users.clear()
-                for (document in snapshot) {
-                        val user = document.toObject(User::class.java)
-                        users.add(user)
+        val ref = db.collection("savedRestaurants").document(getCurrentDate()).collection("list")
+        val restaurants:ArrayList<FireStoreRestaurant> = ArrayList()
+        ref.get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    loadSquareNearbyRestaurants(locationString, null)
+                }  else{
+                    for (item in documents) {
+                        val restaurant =  item.toObject(FireStoreRestaurant::class.java)
+                        restaurants.add(restaurant)
+                    }
+                    loadSquareNearbyRestaurants(locationString, restaurants)
 
                 }
-                mAllUsers.postValue(users)
-                allUsers.postValue(users)
 
             }
-        }
-    }
 
-    fun getFireBaseUser(): FirebaseUser? {
-        return FirebaseAuth.getInstance().currentUser
-    }
 
-    fun updateUser(restaurant: Venue?, deletePicked:Boolean = false) {
+    }
+    fun saveRestaurants(listOfRestaurant: ArrayList<FireStoreRestaurant>) {
+
         val db = FirebaseFirestore.getInstance()
-        val firstName = currentUser.value?.name?.substringBefore(" ")
 
-        if(!deletePicked){
-            val restaurantType = restaurant?.categories?.get(0)?.name
-            val restaurantName = restaurant?.name
-            val pickedRestaurantText = "$firstName is eating $restaurantType ($restaurantName)"
+       val ref = db.collection("savedRestaurants").document(getCurrentDate()).collection("list")
+        for (item in listOfRestaurant) {
+            ref.add(item)
+        }
+        
 
-
-            db.collection("users").document(currentUser.value?.uid!!).update("restaurantId", restaurant?.id)
-            db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", pickedRestaurantText)
-            db.collection("users").document(currentUser.value?.uid!!).update("pickedTime", getCurrentDate())
-
-            currentUser.value!!.restaurantId = restaurant?.id
-            currentUser.value!!.pickedRestaurantText = pickedRestaurantText
-
-        }else{
-            db.collection("users").document(currentUser.value?.uid!!).update("restaurantId","")
-            db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", "")
-            db.collection("users").document(currentUser.value?.uid!!).update("pickedTime", "")
-            currentUser.value!!.restaurantId = ""
-            currentUser.value!!.pickedRestaurantText = ""
+    }
 
 
+
+
+private fun getUsers() {
+    val db = FirebaseFirestore.getInstance()
+
+    val users: ArrayList<User> = ArrayList()
+
+    val docRef = db.collection("users")
+    docRef.addSnapshotListener { snapshot, e ->
+        if (e != null) {
+            return@addSnapshotListener
+        }
+        if (snapshot != null) {
+            users.clear()
+            for (document in snapshot) {
+                val user = document.toObject(User::class.java)
+                users.add(user)
+
+            }
+            mAllUsers = users
+            allUsers.postValue(users)
 
         }
+    }
+}
+
+fun getFireBaseUser(): FirebaseUser? {
+    return FirebaseAuth.getInstance().currentUser
+}
+
+fun updateUser(restaurant: FireStoreRestaurant?, deletePicked: Boolean = false) {
+    val db = FirebaseFirestore.getInstance()
+    val firstName = currentUser.value?.name?.substringBefore(" ")
+
+    if (!deletePicked) {
+        val restaurantType = restaurant?.type
+        val restaurantName = restaurant?.restaurantName
+        val pickedRestaurantText = "$firstName is eating $restaurantType ($restaurantName)"
 
 
+        db.collection("users").document(currentUser.value?.uid!!)
+            .update("restaurantId", restaurant?.restaurantID)
+        db.collection("users").document(currentUser.value?.uid!!)
+            .update("pickedRestaurantText", pickedRestaurantText)
+        db.collection("users").document(currentUser.value?.uid!!)
+            .update("pickedDate", getCurrentDate())
 
+        currentUser.value!!.restaurantId = restaurant?.restaurantID
+        currentUser.value!!.pickedRestaurantText = pickedRestaurantText
+
+    } else {
+        db.collection("users").document(currentUser.value?.uid!!).update("restaurantId", "")
+        db.collection("users").document(currentUser.value?.uid!!).update("pickedRestaurantText", "")
+        db.collection("users").document(currentUser.value?.uid!!).update("pickedDate", "")
+        currentUser.value!!.restaurantId = ""
+        currentUser.value!!.pickedRestaurantText = ""
 
 
     }
+
+
+}
 
 
 }

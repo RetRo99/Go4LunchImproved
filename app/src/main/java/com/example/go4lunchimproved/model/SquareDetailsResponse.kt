@@ -24,7 +24,7 @@ data class Venue(
     @SerializedName("distance") var distance: String?,
     @SerializedName("contact") val contact: Contact?,
     @SerializedName("description") val description: String?,
-@SerializedName("page") val page: Page?,
+    @SerializedName("page") val page: Page?,
     @SerializedName("hours") val hours: Hours?,
     @SerializedName("bestPhoto") val bestPhoto: BestPhoto?
 ) : Parcelable, Comparable<Venue>{
@@ -41,7 +41,9 @@ data class Venue(
 
 
 
-
+  fun getType():String{
+           return "${categories?.get(0)?.name}"
+  }
 
     fun getPhotoUrl(): String {
         return "${bestPhoto?.prefix}1920x1080${bestPhoto?.suffix}"

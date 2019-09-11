@@ -5,26 +5,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.go4lunchimproved.R
-import com.example.go4lunchimproved.model.Venue
+import com.example.go4lunchimproved.model.FireStoreRestaurant
 import com.example.go4lunchimproved.ui.RestaurantDetail
 import com.example.go4lunchimproved.utils.inflate
 import com.example.go4lunchimproved.utils.loadPhotoFromUrl
 import kotlinx.android.synthetic.main.restaurant_recycle_item.view.*
 
-class SquareRestaurantAdapter(val restaurants: List<Venue>) :
-    RecyclerView.Adapter<SquareRestaurantAdapter.SquareRestaurantHolder>() {
+class RestaurantAdapter(val restaurants: List<FireStoreRestaurant>) :
+    RecyclerView.Adapter<RestaurantAdapter.RestaurantHolder>() {
 
 
-    class SquareRestaurantHolder(v: View) : RecyclerView.ViewHolder(v) {
+    class RestaurantHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View = v
 
-        fun bindRestaurant(restaurant: Venue) {
+        fun bindRestaurant(restaurant: FireStoreRestaurant) {
             view.apply {
-                fragment_list_restaurant_view_item_name.text = restaurant.name
+                fragment_list_restaurant_view_item_name.text = restaurant.restaurantName
 
-                fragment_list_restaurant_view_item_address.text = restaurant.getAddressText()
-                fragment_list_restaurant_view_item_distance.text = restaurant.getDistanceText()
-                fragment_list_restaurant_view_item_opening_hours.text = restaurant.getOpeningHours()
+                fragment_list_restaurant_view_item_address.text = restaurant.addresstext
+                fragment_list_restaurant_view_item_distance.text = restaurant.restaurantDistance
+                fragment_list_restaurant_view_item_opening_hours.text = restaurant.openingHours
                 setOnClickListener {
                     val detailIntent = Intent(context, RestaurantDetail::class.java)
                     detailIntent.putExtra("venue", restaurant)
@@ -34,7 +34,7 @@ class SquareRestaurantAdapter(val restaurants: List<Venue>) :
 
 
 
-                fragment_list_restaurant_view_item_image.loadPhotoFromUrl(restaurant.getPhotoUrl())
+                fragment_list_restaurant_view_item_image.loadPhotoFromUrl(restaurant.photoUrl)
             }
         }
 
@@ -42,9 +42,9 @@ class SquareRestaurantAdapter(val restaurants: List<Venue>) :
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SquareRestaurantHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantHolder {
         val inflatedView = parent.inflate(R.layout.restaurant_recycle_item, false)
-        return SquareRestaurantHolder(
+        return RestaurantHolder(
             inflatedView
         )
     }
@@ -53,7 +53,7 @@ class SquareRestaurantAdapter(val restaurants: List<Venue>) :
         return restaurants.size
     }
 
-    override fun onBindViewHolder(holder: SquareRestaurantHolder, position: Int) {
+    override fun onBindViewHolder(holder: RestaurantHolder, position: Int) {
         val venue = restaurants[position]
         holder.bindRestaurant(venue)
 

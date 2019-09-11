@@ -25,11 +25,18 @@ fun ImageView.loadProfilePhoto(url: String?) {
         .into(this)
 }
 
-fun ImageView.loadPhotoFromUrl(photoReference: String) {
-    Glide.with(this)
-        .load(photoReference)
-        .placeholder(ColorDrawable(Color.BLACK))
-        .into(this)
+fun ImageView.loadPhotoFromUrl(photoReference: String?) {
+    if (photoReference == null) {
+        Glide.with(this)
+            .load(ColorDrawable(Color.BLACK))
+            .into(this)
+    }   else{
+        Glide.with(this)
+            .load(photoReference)
+            .placeholder(ColorDrawable(Color.BLACK))
+            .into(this)
+    }
+
 }
 
 fun View.showKeyboard() {
